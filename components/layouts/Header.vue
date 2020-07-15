@@ -37,6 +37,18 @@
         </v-list-item>
 
         <v-list-item
+          :to="localePath({ name: 'category', query: { u: $route.query.u } })"
+          link
+        >
+          <v-list-item-action>
+            <v-icon>mdi-view-list</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <span>{{ $t('category') }}</span>
+          </v-list-item-content>
+        </v-list-item>
+
+        <v-list-item
           :href="
             'http://codh.rois.ac.jp/software/iiif-curation-viewer/demo/?curation=' +
             $route.query.u

@@ -741,6 +741,10 @@ export class SearchUtils {
 
     // const methods: string[] = ['should', 'must', 'must_not']
 
+    if (!query.query) {
+      return indexAll
+    }
+
     const filters: any[] = query.query.bool
 
     let mustIndexes: any = new Set(indexAll)
@@ -883,7 +887,7 @@ export class SearchUtils {
 
     for (const label in queryAggs) {
       const obj = queryAggs[label].terms
-      let size = Number(obj.size)
+      let size = obj.size ? Number(obj.size) : -1
       const field = obj.field.replace('.keyword', '')
       const map = index[field]
 
@@ -918,7 +922,7 @@ export class SearchUtils {
         return 0
       })
 
-      if (size > arr.length) {
+      if (size === -1 || size > arr.length) {
         size = arr.length
       }
 

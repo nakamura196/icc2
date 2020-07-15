@@ -234,35 +234,35 @@ export default class search extends Vue {
       store.commit('setIndex', index.index)
       store.commit('setData', index.data)
       store.commit('setTitle', index.title)
-    }
 
-    if (Object.keys(state.facetLabels)) {
-      const index: any = store.state.index
+      if (Object.keys(state.facetLabels)) {
+        const index: any = store.state.index
 
-      const facetLabels: any = {}
-      const facetFlags: string[] = []
+        const facetLabels: any = {}
+        const facetFlags: string[] = []
 
-      const keys: string[] = Object.keys(index).sort()
+        const keys: string[] = Object.keys(index).sort()
 
-      for (let i = 0; i < keys.length; i++) {
-        const field = keys[i]
+        for (let i = 0; i < keys.length; i++) {
+          const field = keys[i]
 
-        facetLabels[field] = field
-        if (!field.startsWith('_')) {
-          facetFlags.push(field)
+          facetLabels[field] = field
+          if (!field.startsWith('_')) {
+            facetFlags.push(field)
+          }
         }
-      }
 
-      // ファセット項目
-      /*
+        // ファセット項目
+        /*
       const facetLabels: any = process.env.FACETS_LABELS
       store.commit('setFacetLabels', JSON.parse(facetLabels))
       const facetFlags: any = process.env.FACETS_FLAGS
       store.commit('setFacetFlags', JSON.parse(facetFlags))
       */
 
-      store.commit('setFacetLabels', facetLabels)
-      store.commit('setFacetFlags', facetFlags)
+        store.commit('setFacetLabels', facetLabels)
+        store.commit('setFacetFlags', facetFlags)
+      }
     }
 
     const routeQuery = context.query
