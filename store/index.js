@@ -27,7 +27,7 @@ export const state = () => ({
   },
 
   currentPage: 1,
-  layout: 'grid',
+  layout: 'list',
   col: 4,
   facetFlag: true,
   // facetsFlag: {},

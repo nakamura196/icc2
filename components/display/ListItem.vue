@@ -2,7 +2,6 @@
   <v-row>
     <v-col cols="12" sm="3" class="mb-4">
       <nuxt-link
-        class="mb-4"
         :to="
           localePath({
             name: 'item',
@@ -49,7 +48,7 @@
         </dl>
       </template>
 
-      <div class="text-right my-4">
+      <div class="text-right mt-4">
         <a
           v-if="item._source._related"
           class="mr-2 primary--text"

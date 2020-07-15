@@ -96,7 +96,7 @@
           </v-sheet>
 
           <v-sheet
-            class="grey lighten-3 py-5 px-3 py-3"
+            class="grey lighten-3 py-5 px-3 py-3 mt-4"
             style="background-color: #f9f6f0;"
           >
             <share-buttons

@@ -2,7 +2,7 @@
   <div>
     <template v-for="(value, index) in results">
       <ListItem :key="index" :item="value" />
-      <v-divider :key="'hr-' + index" class="my-3" />
+      <v-divider :key="'hr-' + index" class="mb-4" />
     </template>
   </div>
 </template>

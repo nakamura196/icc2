@@ -1,8 +1,8 @@
 <template>
   <div v-show="filterShowFlag">
     <v-divider />
-    <v-container>
-      <span class="ma-1">{{ $t('filter') }}</span>
+    <v-container fluid>
+      <b style="vertical-align: middle;">{{ $t('search_query') }}</b>
       <template v-if="query.keyword">
         <v-chip
           v-for="(value, index) in query.keyword"

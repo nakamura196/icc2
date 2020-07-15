@@ -13,7 +13,7 @@
               variant="link"
               v-on="on"
             >
-              <v-img width="30px" :src="$utils.getManifestIcon(manifest)" />
+              <v-img width="30px" :src="manifestIcon" />
             </v-btn>
           </template>
           <span>{{ 'IIIF Manifest' }}</span>
@@ -53,6 +53,8 @@ import axios from 'axios'
 export default class ShareButtons extends Vue {
   @Prop({ required: true })
   manifest!: string
+
+  manifestIcon: string = process.env.BASE_URL + '/img/icons/iiif-logo.svg'
 
   viewers: { [key: string]: string }[] = [
     {

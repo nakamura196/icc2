@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-data-table :headers="headers" :items="items">
+    <v-data-table :headers="headers" :items="items" hide-default-footer>
       <template v-slot:item.image="{ item }">
         <nuxt-link
           class="mb-4"
