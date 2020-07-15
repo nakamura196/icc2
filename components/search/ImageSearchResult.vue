@@ -8,9 +8,7 @@
       align-self="stretch"
       class="mb-4"
     >
-      <ThumbItem
-        :item="$utils.item2CardItem(value, query, index, '', $i18n.locale)"
-      />
+      <ThumbItem :item="value" />
     </v-col>
   </v-row>
 </template>

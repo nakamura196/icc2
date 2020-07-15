@@ -1,8 +1,15 @@
 <template>
   <div>
-    <nuxt-link :to="item.path ? localePath(item.path) : null">
+    <nuxt-link
+      :to="
+        localePath({
+          name: 'item',
+          query: { id: item._id, u: $route.query.u },
+        })
+      "
+    >
       <v-img
-        :src="item.image"
+        :src="$utils.formatArrayValue(item._source._thumbnail)"
         contain
         style="height: 200px;"
         width="100%"
