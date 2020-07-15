@@ -33,19 +33,22 @@
         </nuxt-link>
       </h3>
 
-      <template v-for="(obj, field) in item._source">
-        <dl v-if="!field.startsWith('_')" :key="field" class="row my-0 py-0">
-          <dt class="col-sm-3 my-0 py-0">
-            <b>{{ field }}</b>
-          </dt>
-          <dd class="col-sm-9 my-0 py-0">
-            <template>
-              <span v-for="(value, index) in obj" :key="index" class="mr-4">
-                {{ $utils.truncate(value, 50) }}
-              </span>
-            </template>
-          </dd>
-        </dl>
+      <template v-for="(obj, field) in sorted(item._source)">
+        <template v-if="!field.startsWith('_')">
+          <dl :key="field" class="row my-0 py-0">
+            <dt class="col-sm-3 my-0 py-0">
+              <span class="text-muted">{{ field }}</span>
+            </dt>
+            <dd class="col-sm-9 my-0 py-0">
+              <template>
+                <span v-for="(value, index) in obj" :key="index" class="mr-4">
+                  {{ $utils.truncate(value, 100) }}
+                </span>
+              </template>
+            </dd>
+          </dl>
+          <v-divider :key="'v-divider-' + field" />
+        </template>
       </template>
 
       <div class="text-right mt-4">
@@ -77,5 +80,15 @@ import ResultOption from '~/components/display/ResultOption.vue'
 export default class ListItem extends Vue {
   @Prop()
   item!: any
+
+  sorted(source: any) {
+    const obj: any = {}
+    const keys = Object.keys(source).sort()
+    for (let i = 0; i < keys.length; i++) {
+      const key = keys[i]
+      obj[key] = source[key]
+    }
+    return obj
+  }
 }
 </script>

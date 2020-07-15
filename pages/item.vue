@@ -11,7 +11,6 @@
                 :src="$utils.formatArrayValue(metadata._source._thumbnail)"
                 height="300"
                 class="grey lighten-2"
-                @click="overlay = !overlay"
             /></v-col>
             <v-col cols="12" :sm="6">
               <h2>
@@ -111,7 +110,7 @@
     </v-container>
 
     <v-container>
-      <template v-for="(obj, field) in metadata._source">
+      <template v-for="(obj, field) in sorted(metadata._source)">
         <dl v-if="!field.startsWith('_')" :key="field" class="row mt-0">
           <dt class="col-sm-3 text-muted">{{ field }}</dt>
           <dd class="col-sm-9">
@@ -184,6 +183,16 @@ export default class Item extends Vue {
       }
     }
     this.url = location.href
+  }
+
+  sorted(source: any) {
+    const obj: any = {}
+    const keys = Object.keys(source).sort()
+    for (let i = 0; i < keys.length; i++) {
+      const key = keys[i]
+      obj[key] = source[key]
+    }
+    return obj
   }
 }
 </script>

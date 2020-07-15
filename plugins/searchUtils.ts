@@ -599,7 +599,16 @@ export class SearchUtils {
                 values = [values]
               }
 
-              obj[m.label] = values
+              if (!obj[m.label]) {
+                obj[m.label] = []
+              }
+
+              for (let l = 0; l < values.length; l++) {
+                const value = values[l]
+                if (!obj[m.label].includes(value)) {
+                  obj[m.label].push(value)
+                }
+              }
             }
           }
 
@@ -933,6 +942,7 @@ export class SearchUtils {
 
   sortData(sort: any, dataFiltered: any): any {
     const sortObj: any = convert2arr(sort)[0]
+
     if (!sortObj) {
       return dataFiltered
     }
@@ -954,9 +964,14 @@ export class SearchUtils {
     }
 
     dataFiltered.sort(function (a: any, b: any) {
+      /*
       if (!a._source[field] || !b._source[field]) {
         return 0
       }
+      */
+      // console.log(a._source[field], b._source[field])
+      if (!a._source[field]) return v1
+      if (!b._source[field]) return v2
       if (a._source[field][0] > b._source[field][0]) return v1
       if (a._source[field][0] < b._source[field][0]) return v2
       return 0

@@ -471,7 +471,7 @@ export class Utils {
   }
 
   truncate(str: string, length: number): string {
-    return str.length <= length ? str : str.substr(0, length) + '...'
+    return str.length <= length ? str : str.substring(0, length) + '...'
   }
 
   convert2arr(value: any) {
