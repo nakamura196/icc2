@@ -439,7 +439,26 @@ export class Utils {
     // 全角を半角に変換
     // 空の配列を削除
     // eslint-disable-next-line
-    return keyword.replace(/　/g, ' ').split(' ').filter(item => item !== "")
+    const keywords: string[] = keyword.replace(/　/g, ' ').split(' ').filter(item => item !== "")
+
+    const keywords2: any[] = []
+    for (let i = 0; i < keywords.length; i++) {
+      const keyword: string = keywords[i]
+      const splitTmp = keyword.split(':')
+      if (splitTmp.length === 2) {
+        keywords2.push({
+          label: 'q-' + splitTmp[0].trim(),
+          value: splitTmp[1].trim(),
+        })
+      } else {
+        keywords2.push({
+          label: 'keyword',
+          value: keyword,
+        })
+      }
+    }
+
+    return keywords2
   }
 
   createFacetQuery(arr: any[]): { [key: string]: string } {
@@ -496,17 +515,21 @@ export class Utils {
     }
 
     const advanced = query.advanced
-    for (const key in advanced) {
-      const values = []
-      const obj = advanced[key]
-      for (const type in obj) {
-        const arr = obj[type]
-        for (let i = 0; i < arr.length; i++) {
-          const value = arr[i]
-          values.push(type === '+' ? value : '-' + value)
+    const types = ['fc', 'q']
+    for (let t = 0; t < types.length; t++) {
+      const type = types[t]
+      for (const label in advanced[type]) {
+        const values = []
+        const obj = advanced[type][label]
+        for (const method in obj) {
+          const arr = obj[method]
+          for (let i = 0; i < arr.length; i++) {
+            const value = arr[i]
+            values.push(method === '+' ? value : '-' + value)
+          }
         }
+        params[label] = values
       }
-      params[key] = values
     }
 
     return params

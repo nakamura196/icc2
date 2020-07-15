@@ -11,7 +11,7 @@ function convert2arr(value) {
 export const state = () => ({
   title: 'IIIF Curation Comparison',
 
-  sort: null,
+  sort: '_score:desc',
   size: 24,
 
   from: 0,
@@ -48,12 +48,15 @@ export const state = () => ({
 
 export const mutations = {
   init(state) {
-    state.sort = null
+    state.sort = '_score:desc'
     state.size = 24
     state.from = 0
     state.currentPage = 1
     state.keyword = []
-    state.advanced = {}
+    state.advanced = {
+      q: {},
+      fc: {},
+    }
     state.id = []
     state.image = []
     state.after = ''
@@ -112,8 +115,33 @@ export const mutations = {
   setKeyword(state, value) {
     state.keyword = convert2arr(value)
   },
-  setAdvanced(state, value) {
+  setAdvanced2(state, value) {
     state.advanced = value
+  },
+  setAdvanced(state, value) {
+    const label = value.label
+    let values = value.values
+    values = convert2arr(values)
+
+    const type = value.type
+
+    const advanced = state.advanced[type]
+    if (!advanced[label]) {
+      advanced[label] = {
+        '+': [],
+        '-': [],
+      }
+    }
+    const obj = advanced[label]
+
+    for (let i = 0; i < values.length; i++) {
+      const value = values[i]
+      if (value.startsWith('-')) {
+        obj['-'].push(value.slice(1))
+      } else {
+        obj['+'].push(value)
+      }
+    }
   },
   setFullPath(state, value) {
     state.fullPath = value
@@ -121,8 +149,8 @@ export const mutations = {
   setMode(state, value) {
     state.mode = value
   },
+  /*
   setFc(state, data) {
-    // console.log('setFc', data.label, data.values)
     const label = data.label
     let values = data.values
     values = convert2arr(values)
@@ -154,6 +182,8 @@ export const mutations = {
 
     state.advanced[label] = obj
   },
+  */
+  /*
   removeFc(state, data) {
     const label = data.label
     const values = data.values
@@ -167,6 +197,23 @@ export const mutations = {
       }
       const arr = advanced[label][type]
       advanced[label][type] = arr.filter((item) => item !== value)
+    }
+  },
+  */
+  removeAdvanced(state, data) {
+    const label = data.label
+    const values = data.values
+    const type = data.type
+    const advanced = state.advanced[type]
+    for (let i = 0; i < values.length; i++) {
+      let value = values[i]
+      let method = '+'
+      if (value.startsWith('-')) {
+        value = value.slice(1)
+        method = '-'
+      }
+      const arr = advanced[label][method]
+      advanced[label][method] = arr.filter((item) => item !== value)
     }
   },
   // changeかセットか

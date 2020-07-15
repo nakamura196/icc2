@@ -80,7 +80,7 @@
               </v-list-item-content>
             </v-list-item>
 
-            <v-divider :key="`divider-not-${index}`"></v-divider>
+            <v-divider :key="`divider-not2-${index}`"></v-divider>
           </template>
 
           <v-list-item>
@@ -165,11 +165,11 @@ export default class FacetOption extends Vue {
 
   getArray(type: string): string[] {
     const label = 'fc-' + this.term
-    if (!this.$store.state.advanced) {
+    if (!this.$store.state.advanced.fc) {
       return []
     }
-    if (this.$store.state.advanced[label]) {
-      return this.$store.state.advanced[label][type]
+    if (this.$store.state.advanced.fc[label]) {
+      return this.$store.state.advanced.fc[label][type]
     } else {
       return []
     }
@@ -177,33 +177,36 @@ export default class FacetOption extends Vue {
 
   // 完成
   change(label: string, value: string) {
-    const obj = this.$store.state.advanced[label]
+    const obj = this.$store.state.advanced.fc[label]
     if (obj && obj['+'].includes(value)) {
-      this.$store.commit('removeFc', {
+      this.$store.commit('removeAdvanced', {
         label,
         values: [value],
+        type: 'fc',
       })
     } else {
-      this.$store.commit('setFc', {
+      this.$store.commit('setAdvanced', {
         label,
         values: [value],
+        type: 'fc',
       })
     }
   }
 
   remove(data: { [keyword: string]: string }) {
-    this.$store.commit('setFc', data)
+    this.$store.commit('setAdvanced', data)
     this.updateQuery()
   }
 
   add(data: { [keyword: string]: string }) {
-    this.$store.commit('removeFc', data)
+    this.$store.commit('removeAdvanced', data)
     this.updateQuery()
   }
 
   updateQuery() {
     const query = this.$utils.getSearchQueryFromQueryStore(this.$store.state)
     query.from = 0
+    query.u = this.$route.query.u
     this.$router.push(
       this.localePath({
         name: 'search',
@@ -215,7 +218,7 @@ export default class FacetOption extends Vue {
   }
 
   checked(label: string, value: string) {
-    const obj = this.$store.state.advanced[label]
+    const obj = this.$store.state.advanced.fc[label]
     if (obj && obj['+'].includes(value)) {
       return true
     } else {

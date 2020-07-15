@@ -248,7 +248,9 @@ export default class search extends Vue {
         const field = keys[i]
 
         facetLabels[field] = field
-        facetFlags.push(field)
+        if (!field.startsWith('_')) {
+          facetFlags.push(field)
+        }
       }
 
       // ファセット項目
@@ -274,8 +276,6 @@ export default class search extends Vue {
       store.state.query
     )
 
-    console.log({ result, esQuery })
-
     context.store.commit('setResult', result)
 
     // --------
@@ -288,12 +288,26 @@ export default class search extends Vue {
     }
 
     for (const key in routeQuery) {
+      const types = ['fc', 'q']
+      for (let t = 0; t < types.length; t++) {
+        const type = types[t]
+        if (key.includes(type + '-')) {
+          store.commit('setAdvanced', {
+            label: key,
+            values: routeQuery[key],
+            type,
+          })
+        }
+      }
+
+      /*
       if (key.includes('fc-')) {
         store.commit('setFc', {
           label: key,
           values: routeQuery[key],
         })
       }
+      */
     }
 
     const sort: any = routeQuery.sort
@@ -386,7 +400,12 @@ export default class search extends Vue {
   }
 
   get computedItemsSort() {
-    const arr: any[] = []
+    const arr: any[] = [
+      {
+        value: '_score:desc',
+        text: this.$t('relevance'),
+      },
+    ]
 
     const orders = ['asc', 'desc']
 

@@ -1,10 +1,7 @@
 <template>
   <div>
-    <section class="mb-5">
-      <v-img
-        src="https://21dzk.l.u-tokyo.ac.jp/SAT/image/image01.jpg"
-        height="300px"
-      >
+    <section class="mb-5 grey">
+      <v-img :src="image" height="300px">
         <v-row align="center" class="lightbox white--text pa-2 fill-height">
           <v-col>
             <h1 class="display-1 text-center">
@@ -45,6 +42,8 @@ export default class Page extends Vue {
       titleTemplate: null,
     }
   }
+
+  image: string = this.$store.state.thumbnail ? this.$store.state.thumbnail : ''
 
   get title(): string {
     return this.$store.state.title

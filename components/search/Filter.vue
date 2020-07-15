@@ -19,6 +19,37 @@
         </v-chip>
       </template>
 
+      <template v-for="(type, t) in ['fc', 'q']">
+        <template v-for="(agg, label) in query.advanced[type]">
+          <span :key="t + '-' + label">
+            <template v-for="method in ['+', '-']">
+              <v-chip
+                v-for="(value, m) in agg[method]"
+                :key="m"
+                style="white-space: normal; word-wrap: break-word;"
+                class="ma-1"
+                close
+                :color="method === '+' ? 'primary' : 'grey'"
+                label
+                text-color="white"
+                @click:close="
+                  removeAdvanced(
+                    label,
+                    [method === '+' ? value : '-' + value],
+                    type
+                  )
+                "
+              >
+                {{ getLabel(label) }}:
+                {{ method === '+' ? value : '-' + value }}
+              </v-chip>
+            </template>
+          </span>
+        </template>
+      </template>
+
+      <!-- 
+
       <template v-for="(agg, label) in query.advanced">
         <template v-for="key in ['+', '-']">
           <v-chip
@@ -37,6 +68,8 @@
           </v-chip>
         </template>
       </template>
+
+      -->
 
       <template v-if="query.after">
         <v-chip
@@ -97,10 +130,34 @@ export default class searchfilter extends Vue {
     )
   }
 
+  /*
   removeFc(label: string, values: string[]) {
     this.$store.commit('removeFc', {
       label,
       values,
+    })
+
+    // push 処理
+    const query: any = this.$utils.getSearchQueryFromQueryStore(
+      this.$store.state
+    )
+
+    this.$router.push(
+      this.localePath({
+        name: 'search',
+        query,
+      }),
+      () => {},
+      () => {}
+    )
+  }
+  */
+
+  removeAdvanced(label: string, values: string[], type: string) {
+    this.$store.commit('removeAdvanced', {
+      label,
+      values,
+      type,
     })
 
     // push 処理
@@ -125,11 +182,37 @@ export default class searchfilter extends Vue {
       query.keyword.length > 0 ||
       query.after.length > 0 ||
       query.before.length > 0 ||
-      Object.keys(query.advanced).length > 0
+      Object.keys(query.advanced.fc).length > 0 ||
+      Object.keys(query.advanced.q).length > 0
     ) {
       flag = true
     }
     return flag
+  }
+
+  getLabel(term: string): string {
+    const termLabels = null
+    const types: any = {
+      'fc-': this.$t('facet'),
+      'q-': this.$t('advanced'),
+    }
+
+    let result: string = ''
+
+    for (const type in types) {
+      if (term.startsWith(type)) {
+        const label = term.replace(type, '')
+
+        result =
+          types[type] +
+          '-' +
+          (termLabels && termLabels[label] ? termLabels[label] : label)
+
+        break
+      }
+    }
+
+    return result
   }
 }
 </script>
