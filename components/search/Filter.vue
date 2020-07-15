@@ -102,6 +102,15 @@
           {{ $t('before') }}: {{ value }}
         </v-chip>
       </template>
+
+      <v-btn
+        small
+        text
+        :to="localePath({ name: 'search', query: { u: $route.query.u } })"
+        class="error--text ma-1"
+      >
+        <v-icon>mdi-close</v-icon> {{ $t('clear') }}
+      </v-btn>
     </v-container>
   </div>
 </template>
@@ -123,7 +132,10 @@ export default class searchfilter extends Vue {
     this.$router.push(
       this.localePath({
         name: 'search',
-        query: this.$utils.getSearchQueryFromQueryStore(this.$store.state),
+        query: this.$utils.getSearchQueryFromQueryStore(
+          this.$store.state,
+          this.$route.query.u
+        ),
       }),
       () => {},
       () => {}
@@ -162,7 +174,8 @@ export default class searchfilter extends Vue {
 
     // push 処理
     const query: any = this.$utils.getSearchQueryFromQueryStore(
-      this.$store.state
+      this.$store.state,
+      this.$route.query.u
     )
 
     this.$router.push(

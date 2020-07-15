@@ -204,9 +204,11 @@ export default class FacetOption extends Vue {
   }
 
   updateQuery() {
-    const query = this.$utils.getSearchQueryFromQueryStore(this.$store.state)
+    const query = this.$utils.getSearchQueryFromQueryStore(
+      this.$store.state,
+      this.$route.query.u
+    )
     query.from = 0
-    query.u = this.$route.query.u
     this.$router.push(
       this.localePath({
         name: 'search',
@@ -230,7 +232,7 @@ export default class FacetOption extends Vue {
     const size: number = this.buckets.length
     let prefix: string = ''
     const suffix: string = this.$i18n.locale === 'ja' ? '件' : ''
-    if (size === 30) {
+    if (size === 50) {
       prefix = this.$i18n.locale === 'ja' ? '上位' : 'Top '
     }
     return prefix + size.toLocaleString() + suffix

@@ -56,22 +56,22 @@ export default class ShareButtons extends Vue {
 
   viewers: { [key: string]: string }[] = [
     {
-      image: '/img/icons/ia.png',
+      image: process.env.BASE_URL + '/img/icons/ia.png',
       url: 'http://www.kanzaki.com/works/2016/pub/image-annotator?u=',
       label: 'Image Annotator',
     },
     {
-      image: '/img/icons/mirador3.svg',
+      image: process.env.BASE_URL + '/img/icons/mirador3.svg',
       url: 'http://mirador.cultural.jp/?manifest=',
       label: 'Mirador 3',
     },
     {
-      image: '/img/icons/mirador.png',
+      image: process.env.BASE_URL + '/img/icons/mirador.png',
       url: 'http://da.dl.itc.u-tokyo.ac.jp/mirador/?manifest=',
       label: 'Mirador 2',
     },
     {
-      image: '/img/icons/uv.jpg',
+      image: process.env.BASE_URL + '/img/icons/uv.jpg',
       url: 'http://universalviewer.io/examples/uv/uv.html#?manifest=',
       label: 'Universal Viewer',
     },
@@ -85,7 +85,7 @@ export default class ShareButtons extends Vue {
         result['@context'] !== 'http://www.shared-canvas.org/ns/context.json'
       ) {
         self.viewers.push({
-          image: '/img/icons/icp-logo.svg',
+          image: process.env.BASE_URL + '/img/icons/icp-logo.svg',
           url:
             'http://codh.rois.ac.jp/software/iiif-curation-viewer/demo/?manifest=',
           label: 'Curation Viewer',
@@ -93,7 +93,7 @@ export default class ShareButtons extends Vue {
 
         if (!self.manifest.includes('https://api.cultural.jp/iiif/')) {
           self.viewers.push({
-            image: '/img/icons/icp-logo.svg',
+            image: process.env.BASE_URL + '/img/icons/icp-logo.svg',
             url:
               'http://codh.rois.ac.jp/kuronet/iiif-curation-viewer/?manifest=',
             label: 'くずし字認識ビューア / Kuzushiji Recognition Viewer',
@@ -104,7 +104,7 @@ export default class ShareButtons extends Vue {
 
     if (!this.manifest.includes('https://api.cultural.jp/iiif/')) {
       this.viewers.push({
-        image: '/img/icons/tify-logo.svg',
+        image: process.env.BASE_URL + '/img/icons/tify-logo.svg',
         url: 'http://tify.sub.uni-goettingen.de/demo.html?manifest=',
         label: 'TIFY',
       })

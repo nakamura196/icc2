@@ -40,9 +40,11 @@
                         'http://pocket.cultural.jp' +
                         ($i18n.locale == 'ja' ? '' : '/en') +
                         '/?url=' +
-                        $utils.formatArrayValue(metadata._source._manifest) +
+                        $utils.formatArrayValue(
+                          metadata._source._manifest
+                        ) /* +
                         '&related=' +
-                        url
+                        url*/
                       "
                       target="_blank"
                       v-on="on"
@@ -108,33 +110,31 @@
       </v-row>
     </v-container>
 
-    <v-sheet color="grey lighten-3" class="">
-      <v-container style="background-color: #eeeeee;">
-        <template v-for="(obj, field) in metadata._source">
-          <dl v-if="!field.startsWith('_')" :key="field" class="row mt-0">
-            <dt class="col-sm-3 text-muted">{{ field }}</dt>
-            <dd class="col-sm-9">
-              <template>
-                <div v-for="(value, index) in obj" :key="index">
-                  <nuxt-link
-                    :to="
-                      localePath({
-                        name: 'search',
-                        query: $utils.createFacetQuery([
-                          { field: 'fc-' + field, value: value },
-                          { field: 'u', value: [$route.query.u] },
-                        ]),
-                      })
-                    "
-                    >{{ value }}</nuxt-link
-                  >
-                </div>
-              </template>
-            </dd>
-          </dl>
-        </template>
-      </v-container>
-    </v-sheet>
+    <v-container>
+      <template v-for="(obj, field) in metadata._source">
+        <dl v-if="!field.startsWith('_')" :key="field" class="row mt-0">
+          <dt class="col-sm-3 text-muted">{{ field }}</dt>
+          <dd class="col-sm-9">
+            <template>
+              <div v-for="(value, index) in obj" :key="index">
+                <nuxt-link
+                  :to="
+                    localePath({
+                      name: 'search',
+                      query: $utils.createFacetQuery([
+                        { field: 'fc-' + field, value: value },
+                        { field: 'u', value: [$route.query.u] },
+                      ]),
+                    })
+                  "
+                  >{{ value }}</nuxt-link
+                >
+              </div>
+            </template>
+          </dd>
+        </dl>
+      </template>
+    </v-container>
   </div>
 </template>
 

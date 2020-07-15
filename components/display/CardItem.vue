@@ -51,58 +51,15 @@
 <script lang="ts">
 import { Vue, Prop, Component } from 'nuxt-property-decorator'
 import ResultOption from '~/components/display/ResultOption.vue'
-// import { queryStore } from '~/store'
 
 @Component({
   components: {
     ResultOption,
   },
 })
-export default class cardItem extends Vue {
-  @Prop({
-    default: 240,
-  })
-  width!: number
-
-  @Prop({
-    default: 300,
-  })
-  height!: number
-
+export default class CardItem extends Vue {
   @Prop({ required: true })
   item!: any
-
-  @Prop({
-    default: false,
-  })
-  horizontal!: boolean
-
-  get advanced() {
-    if (this.$store.state.mode === 'all') {
-      return true
-    } else {
-      return false
-    }
-  }
-
-  removeItem(id: string, type: string) {
-    if (type === 'id') {
-      this.$store.commit('removeId', [id])
-      // queryStore.removeId([id])
-    } else {
-      this.$store.commit('removeImage', [id])
-      // queryStore.removeImage([id])
-    }
-
-    this.$router.push(
-      this.localePath({
-        name: 'search',
-        query: this.$utils.getSearchQueryFromQueryStore(this.$store.state),
-      }),
-      () => {},
-      () => {}
-    )
-  }
 }
 </script>
 <style>

@@ -122,9 +122,9 @@ export default class ShareButtons extends Vue {
       'http://pocket.cultural.jp/' +
       lang +
       '?url=' +
-      encodeURIComponent(this.manifest) +
+      encodeURIComponent(this.manifest) /* +
       '&related=' +
-      this.url
+      this.url */
     )
   }
 

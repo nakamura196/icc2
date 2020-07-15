@@ -1,38 +1,45 @@
 <template>
   <div>
-    {{ fields }}
-    <v-data-table :headers="headers" :items="items" class="elevation-1">
-      <template v-slot:item.calories="{ item }">
-        <v-chip :color="getColor(item.calories)" dark>{{
-          item.calories
-        }}</v-chip>
+    <v-data-table :headers="headers" :items="items">
+      <template v-slot:item.image="{ item }">
+        <nuxt-link
+          class="mb-4"
+          :to="
+            localePath({
+              name: 'item',
+              query: { id: item.id, u: $route.query.u },
+            })
+          "
+        >
+          <v-img
+            :src="item.image"
+            contain
+            style="height: 90px; width: 90px;"
+            class="grey lighten-2 my-2"
+          ></v-img>
+        </nuxt-link>
+      </template>
+
+      <template v-slot:item.label="{ item }">
+        <nuxt-link
+          class="mb-4"
+          :to="
+            localePath({
+              name: 'item',
+              query: { id: item.id, u: $route.query.u },
+            })
+          "
+        >
+          <span v-html="item.label"></span>
+        </nuxt-link>
+      </template>
+
+      <template v-slot:item.icons="{ item }">
+        <ResultOption :item="item.raw" />
       </template>
     </v-data-table>
-    <v-simple-table>
-      <template v-slot:default>
-        <thead>
-          <tr>
-            <th class="text-left">Name</th>
-            <th class="text-left">Calories</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="item in desserts" :key="item.name">
-            <td>{{ item.name }}</td>
-            <td>{{ item.calories }}</td>
-            <td>{{ item.calories }}</td>
-            <td>{{ item.calories }}</td>
-            <td>{{ item.calories }}</td>
-            <td>{{ item.calories }}</td>
-            <td>{{ item.calories }}</td>
-            <td>{{ item.calories }}</td>
-            <td>{{ item.calories }}</td>
-            <td>{{ item.calories }}</td>
-          </tr>
-        </tbody>
-      </template>
-    </v-simple-table>
-    <div style="overflow-x: auto;">
+
+    <div v-if="false" style="overflow-x: auto;">
       <v-simple-table style="width: 100%;">
         <template v-slot:default>
           <thead>
@@ -153,6 +160,9 @@ export default class TableSearchResult extends Vue {
     const headers = []
     for (let i = 0; i < fields.length; i++) {
       const field = fields[i]
+      if (field.label.startsWith('_')) {
+        continue
+      }
       headers.push({
         text: field.label,
         align: 'start',
@@ -164,10 +174,22 @@ export default class TableSearchResult extends Vue {
     const results = this.results
     const items: any[] = []
     for (let i = 0; i < results.length; i++) {
-      const item: any = {}
+      const result: any = results[i]
+      const item: any = {
+        image: this.$utils.formatArrayValue(result._source._thumbnail),
+        label: this.$utils.formatArrayValue(result._source._label),
+        id: result._id,
+        raw: result,
+      }
+
       for (let j = 0; j < fields.length; j++) {
         const label = fields[j].key
-        item[label] = this.$utils.formatArrayValue(item._source[label])
+        if (result._source[label]) {
+          item[label] = this.$utils.truncate(
+            this.$utils.formatArrayValue(result._source[label]),
+            50
+          )
+        }
       }
       items.push(item)
     }

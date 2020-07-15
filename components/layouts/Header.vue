@@ -171,6 +171,14 @@ export default class Header extends Vue {
   // 保留。queryStoreを使いたい。
   @Watch('$route', { deep: true, immediate: true })
   watchRoute(val: any) {
+    let keywords: any = val.query.keyword
+    if (keywords) {
+      keywords = this.$utils.convert2arr(keywords)
+      this.keywordStr = this.$utils.formatArrayValue(keywords, ' ')
+    } else {
+      this.keywordStr = ''
+    }
+    /*
     const keywords: any = val.query.keyword
     if (keywords) {
       this.keywords = this.$utils.convert2arr(keywords)
@@ -178,6 +186,7 @@ export default class Header extends Vue {
     } else {
       this.keywordStr = ''
     }
+    */
   }
 
   search() {
@@ -187,10 +196,23 @@ export default class Header extends Vue {
       keywordStr = ''
     }
 
-    const keywords = this.$utils.splitKeyword(keywordStr)
+    let keywords
+    if (keywordStr.startsWith('"') && keywordStr.endsWith('"')) {
+      keywords = [
+        {
+          label: 'keyword',
+          value: keywordStr,
+        },
+      ]
+    } else {
+      keywords = this.$utils.splitKeyword(keywordStr)
+    }
 
     // push 処理
     const query: any = JSON.parse(JSON.stringify(this.$route.query))
+
+    // キーワードは初期化してみる
+    delete query.keyword
 
     for (let i = 0; i < keywords.length; i++) {
       const obj: any = keywords[i]
@@ -203,7 +225,9 @@ export default class Header extends Vue {
         query[label] = [query[label]]
       }
 
-      query[label].push(value)
+      if (!query[label].includes(value)) {
+        query[label].push(value)
+      }
     }
     // query.keyword = keywords
     query.from = 0

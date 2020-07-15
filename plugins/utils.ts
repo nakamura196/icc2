@@ -487,7 +487,7 @@ export class Utils {
     return values
   }
 
-  getSearchQueryFromQueryStore(query: any): any {
+  getSearchQueryFromQueryStore(query: any, u: any): any {
     const params: any = {
       sort: query.sort,
       size: query.size,
@@ -530,6 +530,10 @@ export class Utils {
         }
         params[label] = values
       }
+    }
+
+    if (u) {
+      params.u = u
     }
 
     return params
