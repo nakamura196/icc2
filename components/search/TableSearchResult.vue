@@ -107,7 +107,7 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component } from 'nuxt-property-decorator'
+import { Vue, Watch, Component } from 'nuxt-property-decorator'
 import ResultOption from '~/components/display/ResultOption.vue'
 
 @Component({
@@ -120,29 +120,17 @@ export default class TableSearchResult extends Vue {
     return this.$store.state.result.hits.hits
   }
 
-  desserts = [
-    {
-      name: 'Frozen Yogurt',
-      calories: 159,
-      calories2: 159,
-      calories3: 159,
-    },
-    {
-      name: 'Ice cream sandwich',
-      calories: 237,
-    },
-  ]
-
-  get query() {
-    return this.$store.state.query
-  }
-
   items: any[] = []
   fields!: any[]
 
   headers: any[] = []
 
-  created() {
+  @Watch('results', { deep: true })
+  watchTmp() {
+    this.main()
+  }
+
+  mounted() {
     const facetLabels: any = this.$store.state.facetLabels
     const fields: any = [
       { key: 'image', label: '' },
@@ -171,6 +159,11 @@ export default class TableSearchResult extends Vue {
     }
     this.headers = headers
 
+    this.main()
+  }
+
+  main() {
+    const fields = this.fields
     const results = this.results
     const items: any[] = []
     for (let i = 0; i < results.length; i++) {
