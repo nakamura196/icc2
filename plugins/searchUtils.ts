@@ -570,9 +570,14 @@ export class SearchUtils {
             thumbnail = member.thumbnail
           }
 
+          let label = member.label
+          if (label['@value']) {
+            label = label['@value']
+          }
+
           const obj: any = {
             // _id: [member['@id']],
-            _label: [member.label],
+            _label: [label],
           }
 
           if (member.related) {

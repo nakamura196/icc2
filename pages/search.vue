@@ -310,6 +310,11 @@ export default class search extends Vue {
       */
     }
 
+    const layout: any = routeQuery.layout
+    if (layout) {
+      store.commit('setLayout', layout)
+    }
+
     const sort: any = routeQuery.sort
     if (sort) {
       store.commit('setSort', sort)
