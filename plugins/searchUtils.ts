@@ -318,6 +318,22 @@ export class SearchUtils {
         },
       }
 
+      if (manifest.attribution) {
+        let values = manifest.attribution
+        if (!Array.isArray(values)) {
+          values = [values]
+        }
+        const values2 = []
+        for (let j = 0; j < values.length; j++) {
+          let value2 = values[j]
+          if (value2['@value']) {
+            value2 = value2['@value']
+          }
+          values2.push(value2)
+        }
+        obj._source.Attribution = values2
+      }
+
       let related
       if (manifest.related) {
         related = manifest.related
@@ -420,20 +436,43 @@ export class SearchUtils {
         const values = obj._source[key]
 
         for (let j = 0; j < values.length; j++) {
-          const value = values[j]
+          let value = values[j]
 
-          // URIの場合は無視
-          if (value == null || value.startsWith('http')) {
-            continue
+          let values2: string[] = []
+          if (Array.isArray(value)) {
+            for (let k = 0; k < value.length; k++) {
+              let value3 = value[k]
+              if (value3['@value']) {
+                value3 = value3['@value']
+              }
+
+              if (!values2.includes(value3)) {
+                values2.push(value3)
+              }
+            }
+          } else {
+            if (value['@value']) {
+              value = value['@value']
+            }
+            values2 = [value]
           }
 
-          if (!index[key][value]) {
-            index[key][value] = []
+          for (let l = 0; l < values2.length; l++) {
+            const value2 = values2[l]
+
+            // URIの場合は無視
+            if (value2 == null || value2.startsWith('http')) {
+              continue
+            }
+
+            if (!index[key][value2]) {
+              index[key][value2] = []
+            }
+
+            index[key][value2].push(posIndex)
+
+            fulltext += value2 + ' '
           }
-
-          index[key][value].push(posIndex)
-
-          fulltext += value + ' '
         }
       }
 
@@ -600,20 +639,28 @@ export class SearchUtils {
     }
 
     for (const manifest in pendings) {
-      const canvasImgMap = await axios.get(manifest).then((response) => {
-        const canvasImgMap: any = {}
-        const canvases = response.data.sequences[0].canvases
-        for (let i = 0; i < canvases.length; i++) {
-          const canvas = canvases[i]
-          if (canvas.images[0].resource.service) {
-            canvasImgMap[canvas['@id']] =
-              canvas.images[0].resource.service['@id'] + '/info.json'
-          } else {
-            canvasImgMap[canvas['@id']] = canvas.images[0].resource['@id']
+      const canvasImgMap = await axios
+        .get(manifest)
+        .then((response) => {
+          const canvasImgMap: any = {}
+          const canvases = response.data.sequences[0].canvases
+          for (let i = 0; i < canvases.length; i++) {
+            const canvas = canvases[i]
+            if (canvas.images[0].resource.service) {
+              canvasImgMap[canvas['@id']] =
+                canvas.images[0].resource.service['@id'] + '/info.json'
+            } else {
+              canvasImgMap[canvas['@id']] = canvas.images[0].resource['@id']
+            }
           }
-        }
-        return canvasImgMap
-      })
+          return canvasImgMap
+        })
+        .catch(() => {
+          return null
+        })
+      if (!canvasImgMap) {
+        continue
+      }
       const poses = pendings[manifest]
       for (const i in poses) {
         const memberId = poses[i].split('#xywh=')

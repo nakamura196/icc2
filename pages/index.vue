@@ -76,6 +76,10 @@ export default class Page extends Vue {
 
     if (state.index == null) {
       const uri = context.query.u
+      if (!uri) {
+        location.href =
+          'https://github.com/nakamura196/icc2/blob/master/README.md'
+      }
       const index = await context.app.$searchUtils.createIndex(uri)
       store.commit('setIndex', index.index)
       store.commit('setData', index.data)

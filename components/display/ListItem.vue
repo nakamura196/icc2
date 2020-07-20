@@ -20,7 +20,7 @@
         </nuxt-link>
       </v-col>
       <v-col cols="12" sm="9">
-        <h3 class="mb-2">
+        <h3 class="mb-4">
           <nuxt-link
             :to="
               localePath({

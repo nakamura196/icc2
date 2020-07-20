@@ -36,12 +36,6 @@
         </v-tooltip>
       </dd>
     </dl>
-    <p v-if="manifest.includes('https://api.cultural.jp/iiif/')" class="my-2">
-      <small>
-        <b>{{ $t('note') }}:</b>
-        {{ $t('This manifest was generated automatically.') }}
-      </small>
-    </p>
   </div>
 </template>
 

@@ -29,7 +29,7 @@
                 </a>
               </div>
 
-              <div class="mt-5">
+              <div v-if="false" class="mt-5">
                 <v-tooltip bottom>
                   <template v-slot:activator="{ on }">
                     <v-btn
