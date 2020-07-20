@@ -44,6 +44,10 @@ export const state = () => ({
   index: null, // 転置インデックス
   data: null, // 全データ
   query: {}, // クエリ
+
+  thumbnail: null,
+  attribution: null,
+  description: null,
 })
 
 export const mutations = {
@@ -263,5 +267,17 @@ export const mutations = {
 
   setTitle(state, value) {
     state.title = value
+  },
+
+  setDescription(state, value) {
+    state.description = value
+  },
+
+  setThumbnail(state, value) {
+    state.thumbnail = value
+  },
+
+  setAttribution(state, value) {
+    state.attribution = value
   },
 }

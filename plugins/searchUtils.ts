@@ -312,8 +312,9 @@ export class SearchUtils {
         _id: manifest['@id'],
 
         _source: {
-          _title: [manifest.label],
-          _image: [manifest.thumbnail],
+          _label: [manifest.label],
+          _thumbnail: [manifest.thumbnail],
+          _manifest: [manifest['@id']],
         },
       }
 
@@ -363,7 +364,9 @@ export class SearchUtils {
       for (let j = 0; j < results.length; j++) {
         const manifest = results[j]
         if (collection.label) {
-          manifest._source['_collection_' + hie] = collection.label
+          manifest._source[('0000000000' + hie).slice(-2) + ' Collection'] = [
+            collection.label,
+          ]
         }
         manifests.push(manifest)
       }
@@ -371,49 +374,200 @@ export class SearchUtils {
     return manifests
   }
 
-  async createIndexFromIIIFCollection(collectionUri: string): Promise<any> {
-    const data = await axios.get(collectionUri).then((response) => {
-      const collection = response.data
+  async createIndex(u: string): Promise<any> {
+    const data = await axios.get(u).then((response) => {
+      const result = response.data
 
-      let manifests = []
-      if (collection.manifests) {
-        manifests = this.handleManifests(collection.manifests)
-      } else if (collection.collections) {
-        manifests = this.handleCollections(collection.collections, 1)
+      if (result['@type'] === 'sc:Collection') {
+        return this.createIndexFromIIIFCollection(result)
+      } else if (result['@type'] === 'cr:Curation') {
+        return this.createIndexFromIIIFCurationList(result)
+      } else {
+        return {}
+      }
+    })
+
+    return data
+  }
+
+  createIndexFromIIIFCollection(collection: any): any {
+    let manifests = []
+    if (collection.manifests) {
+      manifests = this.handleManifests(collection.manifests)
+    } else if (collection.collections) {
+      manifests = this.handleCollections(collection.collections, 1)
+    }
+
+    let pos = 1
+
+    const index: any = {}
+
+    const data = []
+
+    for (let i = 0; i < manifests.length; i++) {
+      const obj = manifests[i]
+
+      let fulltext = ''
+      const posIndex: number = pos - 1
+
+      // Indexに登録
+
+      for (const key in obj._source) {
+        if (!index[key]) {
+          index[key] = {}
+        }
+
+        const values = obj._source[key]
+
+        for (let j = 0; j < values.length; j++) {
+          const value = values[j]
+
+          // URIの場合は無視
+          if (value == null || value.startsWith('http')) {
+            continue
+          }
+
+          if (!index[key][value]) {
+            index[key][value] = []
+          }
+
+          index[key][value].push(posIndex)
+
+          fulltext += value + ' '
+        }
       }
 
-      let pos = 1
+      const key = '_full_text'
 
-      const index: any = {}
+      if (!index[key]) {
+        index[key] = {}
+      }
 
-      const data = []
+      if (!index[key][fulltext]) {
+        index[key][fulltext] = []
+      }
 
-      for (let i = 0; i < manifests.length; i++) {
-        const obj = manifests[i]
+      index[key][fulltext].push(posIndex)
+
+      data.push(obj)
+
+      pos += 1
+    }
+
+    return {
+      data,
+      index,
+      title: collection.label,
+      thumbnail: collection.thumbnail,
+      description: collection.description,
+      attribution: collection.attribution,
+    }
+  }
+
+  async createIndexFromIIIFCurationList(curation: any): Promise<any> {
+    const title: string = curation.label
+    let thumbnail = ''
+    const curationUri: string = curation['@id']
+
+    const data = []
+
+    const selections = curation.selections
+
+    let pos = 1
+
+    const index: any = {} // this.index
+
+    const pendings: any = {}
+
+    for (let i = 0; i < selections.length; i++) {
+      const selection = selections[i]
+      const members = selection.members
+
+      const manifest = selection.within['@id']
+
+      for (let j = 0; j < members.length; j++) {
+        const member = members[j]
 
         let fulltext = ''
-        const posIndex: number = pos - 1
 
-        // Indexに登録
+        if (i === 0 && j === 0) {
+          thumbnail = member.thumbnail
+        }
 
-        for (const key in obj._source) {
+        let label = member.label
+        if (label['@value']) {
+          label = label['@value']
+        }
+
+        const obj: any = {
+          // _id: [member['@id']],
+          _label: [label],
+        }
+
+        if (member.related) {
+          obj._related = [member.related]
+        }
+
+        if (member.thumbnail) {
+          obj._thumbnail = [member.thumbnail]
+        } else {
+          if (!pendings[manifest]) {
+            pendings[manifest] = {}
+          }
+          pendings[manifest][pos - 1] = member['@id']
+        }
+
+        const metadata = member.metadata
+        if (metadata) {
+          for (let k = 0; k < metadata.length; k++) {
+            const m = metadata[k]
+
+            // 全て配列に
+            let values = m.value
+            if (!Array.isArray(values)) {
+              values = [values]
+            }
+
+            if (!obj[m.label]) {
+              obj[m.label] = []
+            }
+
+            for (let l = 0; l < values.length; l++) {
+              const value = values[l]
+              if (!obj[m.label].includes(value)) {
+                obj[m.label].push(value)
+              }
+            }
+          }
+        }
+
+        obj._manifest = [manifest]
+
+        // インデクシング
+        for (const key in obj) {
           if (!index[key]) {
             index[key] = {}
           }
 
-          const values = obj._source[key]
+          const values = obj[key]
 
           for (let j = 0; j < values.length; j++) {
             const value = values[j]
 
+            if (Array.isArray(value)) {
+              continue
+            }
+
             // URIの場合は無視
-            if (value == null || value.startsWith('http')) {
+            if (value && value.startsWith('http') && key !== '_manifest') {
               continue
             }
 
             if (!index[key][value]) {
               index[key][value] = []
             }
+
+            const posIndex = pos - 1
 
             index[key][value].push(posIndex)
 
@@ -431,260 +585,21 @@ export class SearchUtils {
           index[key][fulltext] = []
         }
 
-        index[key][fulltext].push(posIndex)
+        index[key][fulltext].push(pos - 1)
 
-        data.push(obj)
+        obj._curation = [curationUri]
+        obj._pos = [pos]
+
+        data.push({
+          _id: member['@id'],
+          _source: obj,
+        })
 
         pos += 1
       }
-
-      return {
-        index,
-        data,
-      }
-    })
-
-    return data
-  }
-
-  async createIndexFromArray(uri: string): Promise<any> {
-    const mapping: any = {
-      mappings: {
-        properties: {
-          'No.': { type: 'integer' },
-          '基-配本': { type: 'integer' },
-        },
-      },
     }
 
-    const data = await axios.get(uri).then((response) => {
-      const arr = response.data
-
-      const index: any = {}
-
-      const data = []
-
-      for (let i = 0; i < arr.length; i++) {
-        const obj = arr[i]
-
-        let fulltext = ''
-
-        for (const key in obj) {
-          if (!index[key]) {
-            index[key] = {}
-          }
-
-          const values = convert2arr(obj[key])
-
-          for (let j = 0; j < values.length; j++) {
-            let value = values[j]
-
-            // URIの場合は無視
-            if (value == null || String(value).startsWith('http')) {
-              continue
-            }
-
-            if (
-              mapping.mappings.properties[key] &&
-              mapping.mappings.properties[key].type === 'integer'
-            ) {
-              // そのまま
-            } else {
-              value = String(value)
-            }
-
-            if (!index[key][value]) {
-              index[key][value] = []
-            }
-
-            index[key][value].push(i)
-
-            fulltext += value + ' '
-          }
-        }
-
-        const key = '_full_text'
-
-        if (!index[key]) {
-          index[key] = {}
-        }
-
-        if (!index[key][fulltext]) {
-          index[key][fulltext] = []
-        }
-
-        index[key][fulltext].push(i)
-
-        const _source: any = {}
-
-        for (const key in obj) {
-          _source[key] = convert2arr(obj[key])
-        }
-
-        const e: any = {
-          _id: obj['No.'],
-          _source,
-        }
-
-        data.push(e)
-      }
-
-      return {
-        index,
-        data,
-      }
-    })
-
-    return data
-  }
-
-  async createIndexFromIIIFCurationList(collectionUri: string): Promise<any> {
-    const data = await axios.get(collectionUri).then((response) => {
-      const curation = response.data
-
-      const title: string = curation.label
-      let thumbnail = ''
-
-      const data = []
-
-      const selections = curation.selections
-
-      let pos = 1
-
-      const index: any = {} // this.index
-
-      const pendings: any = {}
-
-      for (let i = 0; i < selections.length; i++) {
-        const selection = selections[i]
-        const members = selection.members
-
-        const manifest = selection.within['@id']
-
-        for (let j = 0; j < members.length; j++) {
-          const member = members[j]
-
-          let fulltext = ''
-
-          if (i === 0 && j === 0) {
-            thumbnail = member.thumbnail
-          }
-
-          let label = member.label
-          if (label['@value']) {
-            label = label['@value']
-          }
-
-          const obj: any = {
-            // _id: [member['@id']],
-            _label: [label],
-          }
-
-          if (member.related) {
-            obj._related = [member.related]
-          }
-
-          if (member.thumbnail) {
-            obj._thumbnail = [member.thumbnail]
-          } else {
-            if (!pendings[manifest]) {
-              pendings[manifest] = {}
-            }
-            pendings[manifest][pos - 1] = member['@id']
-          }
-
-          const metadata = member.metadata
-          if (metadata) {
-            for (let k = 0; k < metadata.length; k++) {
-              const m = metadata[k]
-
-              // 全て配列に
-              let values = m.value
-              if (!Array.isArray(values)) {
-                values = [values]
-              }
-
-              if (!obj[m.label]) {
-                obj[m.label] = []
-              }
-
-              for (let l = 0; l < values.length; l++) {
-                const value = values[l]
-                if (!obj[m.label].includes(value)) {
-                  obj[m.label].push(value)
-                }
-              }
-            }
-          }
-
-          obj._manifest = [manifest]
-
-          // インデクシング
-          for (const key in obj) {
-            if (!index[key]) {
-              index[key] = {}
-            }
-
-            const values = obj[key]
-
-            for (let j = 0; j < values.length; j++) {
-              const value = values[j]
-
-              if (Array.isArray(value)) {
-                continue
-              }
-
-              // URIの場合は無視
-              if (value && value.startsWith('http') && key !== '_manifest') {
-                continue
-              }
-
-              if (!index[key][value]) {
-                index[key][value] = []
-              }
-
-              const posIndex = pos - 1
-
-              index[key][value].push(posIndex)
-
-              fulltext += value + ' '
-            }
-          }
-
-          const key = '_full_text'
-
-          if (!index[key]) {
-            index[key] = {}
-          }
-
-          if (!index[key][fulltext]) {
-            index[key][fulltext] = []
-          }
-
-          index[key][fulltext].push(pos - 1)
-
-          obj._curation = [collectionUri]
-          obj._pos = [pos]
-
-          data.push({
-            _id: member['@id'],
-            _source: obj,
-          })
-
-          pos += 1
-        }
-      }
-
-      return {
-        index,
-        data,
-        title,
-        thumbnail,
-        pendings,
-      }
-    })
-
-    for (const manifest in data.pendings) {
+    for (const manifest in pendings) {
       const canvasImgMap = await axios.get(manifest).then((response) => {
         const canvasImgMap: any = {}
         const canvases = response.data.sequences[0].canvases
@@ -699,7 +614,7 @@ export class SearchUtils {
         }
         return canvasImgMap
       })
-      const poses = data.pendings[manifest]
+      const poses = pendings[manifest]
       for (const i in poses) {
         const memberId = poses[i].split('#xywh=')
         const canvasUri = memberId[0]
@@ -710,12 +625,17 @@ export class SearchUtils {
             image = image.replace('info.json', area + '/200,/0/default.jpg')
           }
 
-          data.data[Number(i)]._source._thumbnail = [image]
+          data[Number(i)]._source._thumbnail = [image]
         }
       }
     }
 
-    return data
+    return {
+      data,
+      index,
+      title,
+      thumbnail,
+    }
   }
 
   search(index: any, dataAll: any[], query: any): any {

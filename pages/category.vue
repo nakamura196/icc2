@@ -114,27 +114,30 @@ export default class PageCategory extends Vue {
       store.commit('setIndex', index.index)
       store.commit('setData', index.data)
       store.commit('setTitle', index.title)
+      store.commit('setThumbnail', index.thumbnail)
+      store.commit('setDescription', index.description)
+      store.commit('setAttribution', index.attribution)
+    }
 
-      if (Object.keys(state.facetLabels)) {
-        const index: any = store.state.index
+    if (Object.keys(state.facetLabels)) {
+      const index: any = store.state.index
 
-        const facetLabels: any = {}
-        const facetFlags: string[] = []
+      const facetLabels: any = {}
+      const facetFlags: string[] = []
 
-        const keys: string[] = Object.keys(index).sort()
+      const keys: string[] = Object.keys(index) // .sort()
 
-        for (let i = 0; i < keys.length; i++) {
-          const field = keys[i]
+      for (let i = 0; i < keys.length; i++) {
+        const field = keys[i]
 
-          facetLabels[field] = field
-          if (!field.startsWith('_')) {
-            facetFlags.push(field)
-          }
+        facetLabels[field] = field
+        if (!field.startsWith('_')) {
+          facetFlags.push(field)
         }
-
-        store.commit('setFacetLabels', facetLabels)
-        store.commit('setFacetFlags', facetFlags)
       }
+
+      store.commit('setFacetLabels', facetLabels)
+      store.commit('setFacetFlags', facetFlags)
     }
 
     // const routeQuery = context.query
@@ -145,7 +148,9 @@ export default class PageCategory extends Vue {
     const facetLabels = state.facetLabels
 
     for (const field in facetLabels) {
-      map.push(field)
+      if (field === '_label' || !field.startsWith('_')) {
+        map.push(field)
+      }
     }
 
     if (!label) {

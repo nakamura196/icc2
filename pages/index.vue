@@ -1,33 +1,42 @@
 <template>
   <div>
     <section class="mb-5 grey">
-      <v-img :src="image" height="300px">
+      <v-img
+        :src="image"
+        height="300px"
+        gradient="to top, rgba(0, 0, 0,.33), rgba(0, 0, 0,.33)"
+      >
         <v-row align="center" class="lightbox white--text pa-2 fill-height">
           <v-col>
+            <h3 v-if="attribution" class="text-center mb-5">
+              {{ attribution }}
+            </h3>
             <h1 class="display-1 text-center">
               <b>{{ title }}</b>
             </h1>
+            <div class="text-center mt-10">
+              <v-btn
+                dark
+                color="primary"
+                :to="
+                  localePath({
+                    name: 'search',
+                    query: {
+                      u: $route.query.u,
+                    },
+                  })
+                "
+              >
+                <v-icon>mdi-magnify</v-icon> {{ $t('search') }}
+              </v-btn>
+            </div>
           </v-col>
         </v-row>
       </v-img>
     </section>
 
     <v-container>
-      <v-btn
-        class="mr-1"
-        dark
-        color="primary"
-        :to="
-          localePath({
-            name: 'search',
-            query: {
-              u: $route.query.u,
-            },
-          })
-        "
-      >
-        <v-icon>mdi-magnify</v-icon> {{ $t('search') }}
-      </v-btn>
+      <p v-if="description">{{ description }}</p>
     </v-container>
   </div>
 </template>
@@ -47,6 +56,34 @@ export default class Page extends Vue {
 
   get title(): string {
     return this.$store.state.title
+  }
+
+  get thumbnail(): string {
+    return this.$store.state.thumbnail
+  }
+
+  get attribution(): string {
+    return this.$store.state.attribution
+  }
+
+  get description(): string {
+    return this.$store.state.description
+  }
+
+  async fetch(context: any) {
+    const store = context.store
+    const state = store.state
+
+    if (state.index == null) {
+      const uri = context.query.u
+      const index = await context.app.$searchUtils.createIndex(uri)
+      store.commit('setIndex', index.index)
+      store.commit('setData', index.data)
+      store.commit('setTitle', index.title)
+      store.commit('setThumbnail', index.thumbnail)
+      store.commit('setDescription', index.description)
+      store.commit('setAttribution', index.attribution)
+    }
   }
 }
 </script>

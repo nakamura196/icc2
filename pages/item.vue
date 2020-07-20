@@ -163,13 +163,14 @@ export default class Item extends Vue {
     const state = store.state
 
     if (state.index == null) {
-      const uri = `${context.query.u}`
-      const index = await context.app.$searchUtils.createIndexFromIIIFCurationList(
-        uri
-      )
+      const uri = context.query.u
+      const index = await context.app.$searchUtils.createIndex(uri)
       store.commit('setIndex', index.index)
       store.commit('setData', index.data)
       store.commit('setTitle', index.title)
+      store.commit('setThumbnail', index.thumbnail)
+      store.commit('setDescription', index.description)
+      store.commit('setAttribution', index.attribution)
     }
   }
 
@@ -182,12 +183,13 @@ export default class Item extends Vue {
         this.metadata = data[i]
       }
     }
+    console.log(this.metadata)
     this.url = location.href
   }
 
   sorted(source: any) {
     const obj: any = {}
-    const keys = Object.keys(source).sort()
+    const keys = Object.keys(source) // .sort()
     for (let i = 0; i < keys.length; i++) {
       const key = keys[i]
       obj[key] = source[key]
