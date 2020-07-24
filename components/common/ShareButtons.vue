@@ -1,32 +1,31 @@
 <template>
   <v-card flat>
-    <v-card-actions>
-      <v-tooltip bottom>
-        <template v-slot:activator="{ on }">
-          <v-btn icon class="ma-2" @click="copyLink()" v-on="on"
-            ><v-icon>mdi-link</v-icon></v-btn
-          >
-        </template>
-        <span>{{ 'Copy this link.' }}</span>
-      </v-tooltip>
-      <v-tooltip bottom>
-        <template v-slot:activator="{ on }">
-          <v-btn icon class="ma-2" target="_blank" :href="twitterUrl" v-on="on"
-            ><v-icon>mdi-twitter</v-icon></v-btn
-          >
-        </template>
-        <span>{{ 'Twitter' }}</span>
-      </v-tooltip>
-      <v-tooltip bottom>
-        <template v-slot:activator="{ on }">
-          <v-btn icon class="ma-2" target="_blank" :href="facebookUrl" v-on="on"
-            ><v-icon>mdi-facebook</v-icon></v-btn
-          >
-        </template>
-        <span>{{ 'Facebook' }}</span>
-      </v-tooltip>
+    <v-tooltip bottom>
+      <template v-slot:activator="{ on }">
+        <v-btn icon class="ma-2" @click="copyLink()" v-on="on"
+          ><v-icon>mdi-link</v-icon></v-btn
+        >
+      </template>
+      <span>{{ 'Copy this link.' }}</span>
+    </v-tooltip>
+    <v-tooltip bottom>
+      <template v-slot:activator="{ on }">
+        <v-btn icon class="ma-2" target="_blank" :href="twitterUrl" v-on="on"
+          ><v-icon>mdi-twitter</v-icon></v-btn
+        >
+      </template>
+      <span>{{ 'Twitter' }}</span>
+    </v-tooltip>
+    <v-tooltip bottom>
+      <template v-slot:activator="{ on }">
+        <v-btn icon class="ma-2" target="_blank" :href="facebookUrl" v-on="on"
+          ><v-icon>mdi-facebook</v-icon></v-btn
+        >
+      </template>
+      <span>{{ 'Facebook' }}</span>
+    </v-tooltip>
 
-      <!-- 
+    <!-- 
       <v-tooltip bottom>
         <template v-slot:activator="{ on }">
           <v-btn icon class="ma-2" target="_blank" :href="pocketUrl" v-on="on"
@@ -37,24 +36,23 @@
       </v-tooltip>
       -->
 
-      <v-tooltip v-if="image" bottom>
-        <template v-slot:activator="{ on }">
-          <v-btn icon class="ma-2" target="_blank" :href="googleUrl" v-on="on"
-            ><v-icon>mdi-google</v-icon></v-btn
-          >
-        </template>
-        <span>{{ $t('google_image_search') }}</span>
-      </v-tooltip>
+    <v-tooltip v-if="image" bottom>
+      <template v-slot:activator="{ on }">
+        <v-btn icon class="ma-2" target="_blank" :href="googleUrl" v-on="on"
+          ><v-icon>mdi-google</v-icon></v-btn
+        >
+      </template>
+      <span>{{ $t('google_image_search') }}</span>
+    </v-tooltip>
 
-      <v-tooltip v-if="manifest != ''" bottom>
-        <template v-slot:activator="{ on }">
-          <v-btn icon class="ma-2" target="_blank" :href="iiifUrl" v-on="on"
-            ><v-icon>mdi-star</v-icon></v-btn
-          >
-        </template>
-        <span>{{ $t('IIIF pocket') }}</span>
-      </v-tooltip>
-    </v-card-actions>
+    <v-tooltip v-if="manifest != ''" bottom>
+      <template v-slot:activator="{ on }">
+        <v-btn icon class="ma-2" target="_blank" :href="iiifUrl" v-on="on"
+          ><v-icon>mdi-star</v-icon></v-btn
+        >
+      </template>
+      <span>{{ $t('IIIF pocket') }}</span>
+    </v-tooltip>
   </v-card>
 </template>
 

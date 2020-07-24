@@ -48,6 +48,7 @@ export const state = () => ({
   thumbnail: null,
   attribution: null,
   description: null,
+  json: null,
 })
 
 export const mutations = {
@@ -279,5 +280,8 @@ export const mutations = {
 
   setAttribution(state, value) {
     state.attribution = value
+  },
+  setJson(state, value) {
+    state.json = value
   },
 }

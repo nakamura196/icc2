@@ -14,6 +14,7 @@
             <h1 class="display-1 text-center">
               <b>{{ title }}</b>
             </h1>
+            <!-- 
             <div class="text-center mt-10">
               <v-btn
                 dark
@@ -30,6 +31,7 @@
                 <v-icon>mdi-magnify</v-icon> {{ $t('search') }}
               </v-btn>
             </div>
+            -->
           </v-col>
         </v-row>
       </v-img>
@@ -37,6 +39,92 @@
 
     <v-container>
       <p v-if="description">{{ description }}</p>
+
+      <p>
+        <v-row>
+          <v-col>
+            <v-card>
+              <v-card-text>
+                <p class="display-1 text--primary">
+                  {{ $t('search') }}
+                </p>
+                <p>
+                  {{ $t('desc_search') }}
+                </p>
+              </v-card-text>
+              <v-card-actions>
+                <v-btn
+                  color="primary"
+                  :to="
+                    localePath({
+                      name: 'search',
+                      query: {
+                        u: $route.query.u,
+                      },
+                    })
+                  "
+                >
+                  {{ $t('view') }}
+                </v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-col>
+          <v-col>
+            <v-card>
+              <v-card-text>
+                <p class="display-1 text--primary">
+                  {{ $t('category') }}
+                </p>
+                <p>
+                  {{ $t('desc_category') }}
+                </p>
+              </v-card-text>
+              <v-card-actions>
+                <v-btn
+                  color="primary"
+                  :to="
+                    localePath({
+                      name: 'category',
+                      query: {
+                        u: $route.query.u,
+                      },
+                    })
+                  "
+                >
+                  {{ $t('view') }}
+                </v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-col>
+          <v-col>
+            <v-card>
+              <v-card-text>
+                <p class="display-1 text--primary">
+                  {{ $t('tree') }}
+                </p>
+                <p>
+                  {{ $t('desc_tree') }}
+                </p>
+              </v-card-text>
+              <v-card-actions>
+                <v-btn
+                  color="primary"
+                  :to="
+                    localePath({
+                      name: 'tree',
+                      query: {
+                        u: $route.query.u,
+                      },
+                    })
+                  "
+                >
+                  {{ $t('view') }}
+                </v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-col>
+        </v-row>
+      </p>
     </v-container>
   </div>
 </template>

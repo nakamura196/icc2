@@ -16,13 +16,13 @@
       </v-container>
     </v-sheet>
 
+    <!-- text color="primary" -->
+
     <v-container>
       <v-btn
         v-for="(value, index) in map"
         :key="index"
         class="ma-1"
-        text
-        color="primary"
         :to="
           localePath({
             name: 'category',
@@ -110,7 +110,7 @@ export default class PageCategory extends Vue {
 
     if (state.index == null) {
       const uri: any = this.$route.query.u
-      const index = await this.$searchUtils.createIndexFromIIIFCurationList(uri)
+      const index = await this.$searchUtils.createIndex(uri)
       store.commit('setIndex', index.index)
       store.commit('setData', index.data)
       store.commit('setTitle', index.title)

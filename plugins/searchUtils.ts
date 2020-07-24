@@ -500,6 +500,7 @@ export class SearchUtils {
       thumbnail: collection.thumbnail,
       description: collection.description,
       attribution: collection.attribution,
+      json: collection,
     }
   }
 
@@ -682,6 +683,7 @@ export class SearchUtils {
       index,
       title,
       thumbnail,
+      json: curation,
     }
   }
 

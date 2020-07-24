@@ -20,8 +20,9 @@
     >
       <v-icon>mdi-arrow-up</v-icon>
     </v-btn>
-
+    <!-- 
     <Footer />
+    -->
   </v-app>
 </template>
 

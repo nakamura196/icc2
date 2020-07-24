@@ -49,6 +49,18 @@
         </v-list-item>
 
         <v-list-item
+          :to="localePath({ name: 'tree', query: { u: $route.query.u } })"
+          link
+        >
+          <v-list-item-action>
+            <v-icon>mdi-file-tree</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <span>{{ $t('tree') }}</span>
+          </v-list-item-content>
+        </v-list-item>
+
+        <v-list-item
           :href="
             'http://codh.rois.ac.jp/software/iiif-curation-viewer/demo/?curation=' +
             $route.query.u
@@ -61,6 +73,22 @@
           </v-list-item-action>
           <v-list-item-content>
             <span>IIIF Curation Viewer</span>
+          </v-list-item-content>
+        </v-list-item>
+
+        <v-list-item
+          :href="
+            'https://www.kanzaki.com/works/2016/pub/image-annotator?u=' +
+            $route.query.u
+          "
+          target="_blank"
+          link
+        >
+          <v-list-item-action>
+            <v-icon>mdi-image</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <span>Image Annotator</span>
           </v-list-item-content>
         </v-list-item>
       </v-list>
@@ -98,6 +126,9 @@
           </v-list-item>
         </v-list>
       </v-menu>
+      <v-btn icon href="https://github.com/nakamura196/icc2">
+        <v-icon>mdi-github</v-icon>
+      </v-btn>
     </v-app-bar>
     <v-app-bar color="black" flat>
       <v-text-field
