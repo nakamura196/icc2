@@ -109,9 +109,54 @@ export default class PageTree extends Vue {
       store.commit('setJson', index.json)
     }
 
-    const collection = this.$store.state.json
-    const items = this.rec(collection).children
-    this.items = items
+    const data = this.$store.state.json
+
+    if (data['@type'] === 'cr:Curation') {
+      const items = this.handleCuration(data)
+      this.items = items
+    } else {
+      const items = this.rec(data).children
+      this.items = items
+    }
+  }
+
+  handleCuration(curation: any) {
+    const selections = curation.selections
+
+    const result: any[] = []
+
+    for (let i = 0; i < selections.length; i++) {
+      const selection = selections[i]
+      const members = selection.members
+
+      const children = []
+      for (let j = 0; j < members.length; j++) {
+        const member = members[j]
+
+        let label = member.label
+        if (label['@value']) {
+          label = label['@value']
+        }
+
+        const obj: any = {
+          id: member['@id'],
+          name: label,
+          type: 'sc:Manifest',
+        }
+        children.push(obj)
+      }
+
+      const obj = {
+        id: selection['@id'],
+        name: selection.within.label,
+        type: selection['@type'],
+        children,
+      }
+
+      result.push(obj)
+    }
+
+    return result
   }
 
   rec(/* items, */ collection: any) {

@@ -61,6 +61,7 @@
         </v-list-item>
 
         <v-list-item
+          v-if="dataType === 'cr:Curation'"
           :href="
             'http://codh.rois.ac.jp/software/iiif-curation-viewer/demo/?curation=' +
             $route.query.u
@@ -77,6 +78,7 @@
         </v-list-item>
 
         <v-list-item
+          v-if="dataType === 'sc:Collection'"
           :href="
             'https://www.kanzaki.com/works/2016/pub/image-annotator?u=' +
             $route.query.u
@@ -195,6 +197,14 @@ export default class Header extends Vue {
   dialog: boolean = false
 
   advanced: any = {}
+
+  get dataType(): string {
+    if (this.$store.state.json) {
+      return this.$store.state.json['@type']
+    } else {
+      return ''
+    }
+  }
 
   creators: any = [
     {

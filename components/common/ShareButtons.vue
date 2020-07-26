@@ -51,7 +51,7 @@
           ><v-icon>mdi-star</v-icon></v-btn
         >
       </template>
-      <span>{{ $t('IIIF pocket') }}</span>
+      <span>IIIF pocket</span>
     </v-tooltip>
   </v-card>
 </template>
