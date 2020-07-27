@@ -42,7 +42,13 @@
 
       <v-card-actions>
         <v-spacer></v-spacer>
-        <ResultOption :item="item" />
+        <ResultOption
+          :item="{
+            label: $utils.formatArrayValue(item._source._label),
+            manifest: $utils.formatArrayValue(item._source._manifest),
+            url: encodeURIComponent(getUrl(item)),
+          }"
+        />
       </v-card-actions>
     </template>
   </v-card>
@@ -60,6 +66,19 @@ import ResultOption from '~/components/display/ResultOption.vue'
 export default class CardItem extends Vue {
   @Prop({ required: true })
   item!: any
+
+  getUrl(item: any) {
+    return (
+      process.env.BASE_URL +
+      this.localePath({
+        name: 'item',
+        query: {
+          u: this.$route.query.u,
+          id: item._id,
+        },
+      })
+    )
+  }
 }
 </script>
 <style>

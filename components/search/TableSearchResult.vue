@@ -35,74 +35,15 @@
       </template>
 
       <template v-slot:item.icons="{ item }">
-        <ResultOption :item="item.raw" />
+        <ResultOption
+          :item="{
+            label: $utils.formatArrayValue(item.raw._source._label),
+            manifest: $utils.formatArrayValue(item.raw._source._manifest),
+            url: encodeURIComponent(getUrl(item.raw)),
+          }"
+        />
       </template>
     </v-data-table>
-
-    <div v-if="false" style="overflow-x: auto;">
-      <v-simple-table style="width: 100%;">
-        <template v-slot:default>
-          <thead>
-            <tr>
-              <th v-for="(obj, index) in fields" :key="index" class="text-left">
-                {{ obj.label }}
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="(item, key) in results" :key="key">
-              <td>
-                <nuxt-link
-                  class="mb-4"
-                  :to="
-                    localePath({
-                      name: 'item',
-                      query: { id: item.id },
-                    })
-                  "
-                >
-                  <v-img
-                    :src="$utils.formatArrayValue(item._source._thumbnail)"
-                    contain
-                    style="height: 90px; width: 90px;"
-                    class="grey lighten-2 my-2"
-                  ></v-img>
-                </nuxt-link>
-              </td>
-              <td>
-                <nuxt-link
-                  :to="
-                    localePath({
-                      name: 'item',
-                      query: { id: item.id },
-                    })
-                  "
-                >
-                  <!-- eslint-disable-next-line vue/no-v-html -->
-                  <span
-                    v-html="$utils.formatArrayValue(item._source._label)"
-                  ></span>
-                </nuxt-link>
-              </td>
-              <td
-                v-for="(fieldObj, fieldIndex) in fields.slice(
-                  2,
-                  fields.length - 2
-                )"
-                :key="fieldIndex"
-                width="10%"
-              >
-                {{ $utils.formatArrayValue(item._source[fieldObj.key]) }}
-              </td>
-
-              <td width="10%">
-                <ResultOption v-if="!item.share_hide" :item="item" />
-              </td>
-            </tr>
-          </tbody>
-        </template>
-      </v-simple-table>
-    </div>
   </div>
 </template>
 
@@ -187,6 +128,19 @@ export default class TableSearchResult extends Vue {
       items.push(item)
     }
     this.items = items
+  }
+
+  getUrl(item: any) {
+    return (
+      process.env.BASE_URL +
+      this.localePath({
+        name: 'item',
+        query: {
+          u: this.$route.query.u,
+          id: item._id,
+        },
+      })
+    )
   }
 }
 </script>

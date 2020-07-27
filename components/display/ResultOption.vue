@@ -134,7 +134,8 @@ export default class resultoption extends Vue {
   }
 
   get url() {
-    return process.env.BASE_URL + '/item/' + this.id
+    // return process.env.BASE_URL + '/item/' + this.id
+    return this.item.url
   }
 }
 </script>

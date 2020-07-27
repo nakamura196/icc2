@@ -25,16 +25,14 @@
       <span>{{ 'Facebook' }}</span>
     </v-tooltip>
 
-    <!-- 
-      <v-tooltip bottom>
-        <template v-slot:activator="{ on }">
-          <v-btn icon class="ma-2" target="_blank" :href="pocketUrl" v-on="on"
-            ><v-icon>mdi-pocket</v-icon></v-btn
-          >
-        </template>
-        <span>{{ 'Pocket' }}</span>
-      </v-tooltip>
-      -->
+    <v-tooltip bottom>
+      <template v-slot:activator="{ on }">
+        <v-btn icon class="ma-2" target="_blank" :href="pocketUrl" v-on="on"
+          ><img style="font-size: 24px;" :src="baseUrl + '/img/pocket.svg'"
+        /></v-btn>
+      </template>
+      <span>{{ 'Pocket' }}</span>
+    </v-tooltip>
 
     <v-tooltip v-if="image" bottom>
       <template v-slot:activator="{ on }">
@@ -61,6 +59,8 @@ import { Prop, Component, Vue } from 'nuxt-property-decorator'
 
 @Component
 export default class ShareButtons extends Vue {
+  baseUrl: any = process.env.BASE_URL
+
   copyLink() {
     const str = this.url
 

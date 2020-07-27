@@ -64,7 +64,14 @@
             <v-icon>mdi-open-in-new</v-icon>
           </a>
 
-          <ResultOption v-if="!item.share_hide" :item="item" />
+          <ResultOption
+            v-if="!item.share_hide"
+            :item="{
+              label: $utils.formatArrayValue(item._source._label),
+              manifest: $utils.formatArrayValue(item._source._manifest),
+              url: encodeURIComponent(getUrl(item)),
+            }"
+          />
         </div>
       </v-col>
     </v-row>
@@ -92,6 +99,19 @@ export default class ListItem extends Vue {
       obj[key] = source[key]
     }
     return obj
+  }
+
+  getUrl(item: any) {
+    return (
+      process.env.BASE_URL +
+      this.localePath({
+        name: 'item',
+        query: {
+          u: this.$route.query.u,
+          id: item._id,
+        },
+      })
+    )
   }
 }
 </script>

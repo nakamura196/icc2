@@ -40,8 +40,11 @@
                   )
                 "
               >
+                <v-icon v-if="method !== '+'" class="mr-1"
+                  >mdi-minus-box</v-icon
+                >
                 {{ getLabel(label) }}:
-                {{ method === '+' ? value : '-' + value }}
+                {{ value }}
               </v-chip>
             </template>
           </span>
@@ -217,8 +220,9 @@ export default class searchfilter extends Vue {
         const label = term.replace(type, '')
 
         result =
+          '[' +
           types[type] +
-          '-' +
+          '] ' +
           (termLabels && termLabels[label] ? termLabels[label] : label)
 
         break
