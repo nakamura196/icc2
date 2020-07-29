@@ -143,6 +143,9 @@ export default class PageCategory extends Vue {
     // const routeQuery = context.query
 
     let label: any = this.$route.query.field
+    if (label === '_label') {
+      label = this.$t(label)
+    }
 
     const map: string[] = []
     const facetLabels = state.facetLabels
