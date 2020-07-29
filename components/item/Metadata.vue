@@ -135,7 +135,9 @@
       </template>
     </v-container>
 
-    <v-container v-if="metadata._source._manifest">
+    <v-container
+      v-if="metadata._source._manifest && dataType == 'sc:Collection'"
+    >
       <iframe
         :src="
           'https://universalviewer.io/examples/uv/./uv.html#?manifest=' +
@@ -166,6 +168,14 @@ export default class Metadata extends Vue {
   metadata!: any
 
   url = location.href
+
+  get dataType(): string {
+    if (this.$store.state.json) {
+      return this.$store.state.json['@type']
+    } else {
+      return ''
+    }
+  }
 
   sorted(source: any) {
     const obj: any = {}
