@@ -11,7 +11,7 @@
         <template v-slot:activator="{ on }">
           <img
             height="24px"
-            :src="$utils.getManifestIcon(manifest)"
+            :src="baseUrl + $utils.getManifestIcon(manifest)"
             v-on="on"
           />
         </template>
@@ -86,6 +86,8 @@ import ShareButtons from '~/components/common/ShareButtons.vue'
   },
 })
 export default class resultoption extends Vue {
+  baseUrl: any = process.env.BASE_URL
+
   SIMILAR_IMAGES_FLAG: boolean = process.env.SIMILAR_IMAGES_FLAG === 'true'
 
   get advanced() {

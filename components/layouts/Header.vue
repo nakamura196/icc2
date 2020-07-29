@@ -60,6 +60,15 @@
           </v-list-item-content>
         </v-list-item>
 
+        <v-list-item :href="$route.query.u" target="_blank" link>
+          <v-list-item-action>
+            <v-icon>mdi-link</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <span>URI</span>
+          </v-list-item-content>
+        </v-list-item>
+
         <v-list-item
           v-if="dataType === 'cr:Curation'"
           :href="

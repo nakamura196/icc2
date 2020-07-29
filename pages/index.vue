@@ -4,6 +4,7 @@
       <v-img
         :src="image"
         height="300px"
+        contain
         gradient="to top, rgba(0, 0, 0,.33), rgba(0, 0, 0,.33)"
       >
         <v-row align="center" class="lightbox white--text pa-2 fill-height">
@@ -38,9 +39,9 @@
     </section>
 
     <v-container>
-      <p v-if="description">{{ description }}</p>
+      <p v-if="description" class="mt-5 mb-10">{{ description }}</p>
 
-      <p>
+      <p class="mt-5">
         <v-row>
           <v-col>
             <v-card>
@@ -165,8 +166,11 @@ export default class Page extends Vue {
     if (state.index == null) {
       const uri = context.query.u
       if (!uri) {
+        /*
         location.href =
           'https://github.com/nakamura196/icc2/blob/master/README.md'
+        */
+        return
       }
       const index = await context.app.$searchUtils.createIndex(uri)
       store.commit('setIndex', index.index)

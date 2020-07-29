@@ -9,7 +9,7 @@ function convert2arr(value) {
 }
 
 export const state = () => ({
-  title: 'IIIF Curation Comparison',
+  title: 'IIIF Multi Viewer',
 
   sort: '_score:desc',
   size: 24,

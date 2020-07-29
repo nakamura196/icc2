@@ -134,6 +134,19 @@
         </dl>
       </template>
     </v-container>
+
+    <v-container v-if="metadata._source._manifest">
+      <iframe
+        :src="
+          'https://universalviewer.io/examples/uv/./uv.html#?manifest=' +
+          encodeURIComponent(metadata._source._manifest)
+        "
+        width="100%"
+        height="600"
+        allowfullscreen
+        frameborder="0"
+      ></iframe>
+    </v-container>
   </div>
 </template>
 
