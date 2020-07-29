@@ -244,6 +244,7 @@ export default class search extends Vue {
       store.commit('setThumbnail', index.thumbnail)
       store.commit('setDescription', index.description)
       store.commit('setAttribution', index.attribution)
+      store.commit('setJson', index.json)
     }
 
     // ------ ファセット ---------
