@@ -1,5 +1,8 @@
 <template>
   <span>
+    {{ baseUrl }}
+    <br />
+    {{ $utils.getManifestIcon(manifest) }}
     <v-btn
       v-if="item.manifest"
       depressed
