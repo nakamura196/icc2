@@ -110,35 +110,43 @@
     </v-container>
 
     <v-container>
-      <template v-for="(obj, field) in sorted(metadata._source)">
-        <dl v-if="!field.startsWith('_')" :key="field" class="row mt-0">
-          <dt class="col-sm-3 text-muted">{{ field }}</dt>
-          <dd class="col-sm-9">
-            <template>
-              <div v-for="(value, index) in obj" :key="index">
-                <nuxt-link
-                  :to="
-                    localePath({
-                      name: 'search',
-                      query: $utils.createFacetQuery([
-                        { field: 'fc-' + field, value: value },
-                        { field: 'u', value: [$route.query.u] },
-                      ]),
-                    })
-                  "
-                  >{{ value }}</nuxt-link
-                >
-              </div>
-            </template>
-          </dd>
-        </dl>
-      </template>
+      <v-row>
+        <v-col cols="12" sm="6">
+          <template v-for="(obj, field) in sorted(metadata._source)">
+            <dl v-if="!field.startsWith('_')" :key="field" class="row mt-0">
+              <dt class="col-sm-3 text-muted">{{ field }}</dt>
+              <dd class="col-sm-9">
+                <template>
+                  <div v-for="(value, index) in obj" :key="index">
+                    <nuxt-link
+                      :to="
+                        localePath({
+                          name: 'search',
+                          query: $utils.createFacetQuery([
+                            { field: 'fc-' + field, value: value },
+                            { field: 'u', value: [$route.query.u] },
+                          ]),
+                        })
+                      "
+                      >{{ value }}</nuxt-link
+                    >
+                  </div>
+                </template>
+              </dd>
+            </dl>
+          </template>
+        </v-col>
+        <v-col cols="12" sm="6">
+          <MoreLikeThis id="moreLikeThis" :item-id="metadata._id" />
+        </v-col>
+      </v-row>
     </v-container>
 
     <v-container
       v-if="metadata._source._manifest && dataType == 'sc:Collection'"
     >
       <iframe
+        :key="metadata._id"
         :src="
           'https://universalviewer.io/examples/uv/./uv.html#?manifest=' +
           encodeURIComponent(metadata._source._manifest)
@@ -156,16 +164,22 @@
 import { Prop, Component, Vue } from 'nuxt-property-decorator'
 import ShareButtons from '~/components/common/ShareButtons.vue'
 import IIIFViewers from '~/components/item/IIIFViewers.vue'
+import MoreLikeThis from '~/components/item/MoreLikeThis.vue'
 
 @Component({
   components: {
     ShareButtons,
     IIIFViewers,
+    MoreLikeThis,
   },
 })
 export default class Metadata extends Vue {
   @Prop({ required: true })
   metadata!: any
+
+  get data() {
+    return this.metadata
+  }
 
   url = location.href
 

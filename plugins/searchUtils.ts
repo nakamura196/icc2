@@ -318,6 +318,10 @@ export class SearchUtils {
         },
       }
 
+      if (manifest.texts) {
+        obj.texts = manifest.texts
+      }
+
       if (manifest.attribution) {
         let values = manifest.attribution
         if (!Array.isArray(values)) {

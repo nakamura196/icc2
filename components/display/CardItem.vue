@@ -1,5 +1,9 @@
 <template>
-  <v-card no-body class="mb-4">
+  <v-card
+    no-body
+    class="mb-4"
+    :style="horizontal ? 'width: ' + width + 'px;' : ''"
+  >
     <nuxt-link
       :to="
         localePath({
@@ -17,7 +21,18 @@
       ></v-img>
     </nuxt-link>
 
-    <div class="pa-4">
+    <div
+      class="pa-4"
+      :style="
+        horizontal
+          ? 'width: ' +
+            width +
+            'px; height: ' +
+            /*height*/ 100 +
+            'px; overflow-y: auto;'
+          : ''
+      "
+    >
       <nuxt-link
         :to="
           localePath({
@@ -66,6 +81,21 @@ import ResultOption from '~/components/display/ResultOption.vue'
 export default class CardItem extends Vue {
   @Prop({ required: true })
   item!: any
+
+  @Prop({
+    default: 240,
+  })
+  width!: number
+
+  @Prop({
+    default: 300,
+  })
+  height!: number
+
+  @Prop({
+    default: false,
+  })
+  horizontal!: boolean
 
   getUrl(item: any) {
     return (

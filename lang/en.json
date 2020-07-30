@@ -322,5 +322,6 @@
   "desc_search" : "Search items with facets.",
   "desc_category" : "Count items by metadata.",
   "desc_tree" : "Browse IIIF collection tree.",
-  "_label" : "label"
+  "_label" : "label",
+  "manifest" : "Manifest"
   }

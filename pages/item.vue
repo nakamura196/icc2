@@ -5,7 +5,7 @@
 </template>
 
 <script lang="ts">
-import { Vue, Component } from 'nuxt-property-decorator'
+import { Vue, Watch, Component } from 'nuxt-property-decorator'
 import Metadata from '~/components/item/Metadata.vue'
 
 @Component({
@@ -41,14 +41,29 @@ export default class Item extends Vue {
   }
 
   created() {
+    this.init()
+  }
+
+  init() {
     const itemId = this.$route.query.id
     const data = this.$store.state.data
+    let metadata = null
     for (let i = 0; i < data.length; i++) {
       const id = data[i]._id
       if (id === itemId) {
-        this.metadata = data[i]
+        metadata = data[i]
       }
     }
+    this.metadata = metadata
+
+    if (process.browser) {
+      window.scrollTo(0, 0)
+    }
+  }
+
+  @Watch('$route', { deep: true })
+  watchId(): void {
+    this.init()
   }
 
   /*
