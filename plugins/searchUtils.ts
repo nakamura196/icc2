@@ -322,6 +322,10 @@ export class SearchUtils {
         obj.texts = manifest.texts
       }
 
+      if (manifest.images) {
+        obj.images = manifest.images
+      }
+
       if (manifest.attribution) {
         let values = manifest.attribution
         if (!Array.isArray(values)) {

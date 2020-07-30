@@ -110,36 +110,35 @@
     </v-container>
 
     <v-container>
-      <v-row>
-        <v-col cols="12" sm="6">
-          <template v-for="(obj, field) in sorted(metadata._source)">
-            <dl v-if="!field.startsWith('_')" :key="field" class="row mt-0">
-              <dt class="col-sm-3 text-muted">{{ field }}</dt>
-              <dd class="col-sm-9">
-                <template>
-                  <div v-for="(value, index) in obj" :key="index">
-                    <nuxt-link
-                      :to="
-                        localePath({
-                          name: 'search',
-                          query: $utils.createFacetQuery([
-                            { field: 'fc-' + field, value: value },
-                            { field: 'u', value: [$route.query.u] },
-                          ]),
-                        })
-                      "
-                      >{{ value }}</nuxt-link
-                    >
-                  </div>
-                </template>
-              </dd>
-            </dl>
-          </template>
-        </v-col>
-        <v-col cols="12" sm="6">
-          <MoreLikeThis id="moreLikeThis" :item-id="metadata._id" />
-        </v-col>
-      </v-row>
+      <template v-for="(obj, field) in sorted(metadata._source)">
+        <dl v-if="!field.startsWith('_')" :key="field" class="row mt-0">
+          <dt class="col-sm-3 text-muted">{{ field }}</dt>
+          <dd class="col-sm-9">
+            <template>
+              <div v-for="(value, index) in obj" :key="index">
+                <nuxt-link
+                  :to="
+                    localePath({
+                      name: 'search',
+                      query: $utils.createFacetQuery([
+                        { field: 'fc-' + field, value: value },
+                        { field: 'u', value: [$route.query.u] },
+                      ]),
+                    })
+                  "
+                  >{{ value }}</nuxt-link
+                >
+              </div>
+            </template>
+          </dd>
+        </dl>
+      </template>
+    </v-container>
+
+    <v-container fluid>
+      <MoreLikeThis class="mb-5" :item-id="metadata._id" />
+
+      <SimilarImages class="mb-5" :item-id="metadata._id" />
     </v-container>
 
     <v-container
@@ -165,12 +164,14 @@ import { Prop, Component, Vue } from 'nuxt-property-decorator'
 import ShareButtons from '~/components/common/ShareButtons.vue'
 import IIIFViewers from '~/components/item/IIIFViewers.vue'
 import MoreLikeThis from '~/components/item/MoreLikeThis.vue'
+import SimilarImages from '~/components/item/SimilarImages.vue'
 
 @Component({
   components: {
     ShareButtons,
     IIIFViewers,
     MoreLikeThis,
+    SimilarImages,
   },
 })
 export default class Metadata extends Vue {
