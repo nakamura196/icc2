@@ -638,10 +638,16 @@ export class SearchUtils {
         obj._curation = [curationUri]
         obj._pos = [pos]
 
-        data.push({
+        const item: any = {
           _id: member['@id'],
           _source: obj,
-        })
+        }
+
+        if (member.images) {
+          item.images = member.images
+        }
+
+        data.push(item)
 
         pos += 1
       }
