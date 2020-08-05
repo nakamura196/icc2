@@ -355,6 +355,9 @@ export class SearchUtils {
       if (manifest.description) {
         obj._source.Description = [manifest.description]
       }
+
+      const entity: any = {}
+
       const metadata = manifest.metadata
       if (metadata) {
         for (let k = 0; k < metadata.length; k++) {
@@ -364,9 +367,41 @@ export class SearchUtils {
           if (!Array.isArray(values)) {
             values = [values]
           }
-          obj._source[m.label] = values
+
+          if (!obj._source[m.label]) {
+            obj._source[m.label] = []
+          }
+          for (let l = 0; l < values.length; l++) {
+            const value = values[l]
+            if (!obj._source[m.label].includes(value)) {
+              obj._source[m.label].push(value)
+            }
+            // obj._source[m.label] = values
+          }
+
+          // entity
+          if (m.property) {
+            const propertyUri = m.property
+            if (!entity[propertyUri]) {
+              entity[propertyUri] = {}
+            }
+
+            if (m.uri) {
+              if (!entity[propertyUri][m.uri]) {
+                entity[propertyUri][m.uri] = {
+                  label: m.value,
+                }
+              }
+            } else if (!entity[propertyUri][m.value]) {
+              entity[propertyUri][m.valu] = {
+                label: m.value,
+              }
+            }
+          }
         }
       }
+
+      obj.entity = entity
 
       results.push(obj)
     }
@@ -376,6 +411,7 @@ export class SearchUtils {
 
   handleCollections(collections: any[], hie: number) {
     const manifests: any[] = []
+
     for (let i = 0; i < collections.length; i++) {
       const collection: any = collections[i]
       let results = []
@@ -396,6 +432,18 @@ export class SearchUtils {
       }
     }
     return manifests
+  }
+
+  initStore(store: any, index: any) {
+    store.commit('setIndex', index.index)
+    store.commit('setData', index.data)
+    store.commit('setTitle', index.title)
+    store.commit('setThumbnail', index.thumbnail)
+    store.commit('setDescription', index.description)
+    store.commit('setAttribution', index.attribution)
+    store.commit('setJson', index.json)
+    store.commit('setEntity', index.entity)
+    store.commit('setApi', index.api)
   }
 
   async createIndex(u: string): Promise<any> {
@@ -427,6 +475,8 @@ export class SearchUtils {
     const index: any = {}
 
     const data = []
+
+    const entities: any = {}
 
     for (let i = 0; i < manifests.length; i++) {
       const obj = manifests[i]
@@ -499,6 +549,31 @@ export class SearchUtils {
       data.push(obj)
 
       pos += 1
+
+      // Entity
+
+      const currentEntities = obj.entity
+      // console.log({ entities })
+      for (const property in currentEntities) {
+        if (!entities[property]) {
+          entities[property] = {}
+        }
+
+        const entity = currentEntities[property]
+        for (const uri in entity) {
+          const label: string = entity[uri].label
+
+          if (!entities[property][uri]) {
+            entities[property][uri] = {
+              label,
+              count: 0,
+            }
+          }
+
+          const count = entities[property][uri].count + 1
+          entities[property][uri].count = count
+        }
+      }
     }
 
     return {
@@ -509,6 +584,8 @@ export class SearchUtils {
       description: collection.description,
       attribution: collection.attribution,
       json: collection,
+      entity: entities,
+      api: collection.api,
     }
   }
 

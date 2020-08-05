@@ -323,5 +323,6 @@
   "desc_category" : "Count items by metadata.",
   "desc_tree" : "Browse IIIF collection tree.",
   "_label" : "label",
-  "manifest" : "Manifest"
+  "manifest" : "Manifest",
+  "entity" : "Entity"
   }

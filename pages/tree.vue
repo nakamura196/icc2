@@ -100,13 +100,7 @@ export default class PageTree extends Vue {
     if (state.json == null) {
       const uri: any = this.$route.query.u
       const index = await this.$searchUtils.createIndex(uri)
-      store.commit('setIndex', index.index)
-      store.commit('setData', index.data)
-      store.commit('setTitle', index.title)
-      store.commit('setThumbnail', index.thumbnail)
-      store.commit('setDescription', index.description)
-      store.commit('setAttribution', index.attribution)
-      store.commit('setJson', index.json)
+      this.$searchUtils.initStore(store, index)
     }
 
     const data = this.$store.state.json

@@ -343,5 +343,6 @@
     "desc_category" : "メタデータ毎のアイテム数を閲覧する。",
     "desc_tree" : "IIIFコレクションの階層に沿ってアイテムを閲覧する。",
     "_label" : "label",
-    "manifest" : "Manifest"
+    "manifest" : "Manifest",
+    "entity" : "事物"
   }

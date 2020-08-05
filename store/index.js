@@ -49,6 +49,8 @@ export const state = () => ({
   attribution: null,
   description: null,
   json: null,
+  entity: null,
+  api: null,
 })
 
 export const mutations = {
@@ -283,5 +285,11 @@ export const mutations = {
   },
   setJson(state, value) {
     state.json = value
+  },
+  setEntity(state, value) {
+    state.entity = value
+  },
+  setApi(state, value) {
+    state.api = value
   },
 }

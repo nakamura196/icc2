@@ -60,6 +60,18 @@
           </v-list-item-content>
         </v-list-item>
 
+        <v-list-item
+          :to="localePath({ name: 'entity', query: { u: $route.query.u } })"
+          link
+        >
+          <v-list-item-action>
+            <v-icon>mdi-account</v-icon>
+          </v-list-item-action>
+          <v-list-item-content>
+            <span>{{ $t('entity') }}</span>
+          </v-list-item-content>
+        </v-list-item>
+
         <v-list-item :href="$route.query.u" target="_blank" link>
           <v-list-item-action>
             <v-icon>mdi-link</v-icon>

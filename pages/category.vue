@@ -111,12 +111,7 @@ export default class PageCategory extends Vue {
     if (state.index == null) {
       const uri: any = this.$route.query.u
       const index = await this.$searchUtils.createIndex(uri)
-      store.commit('setIndex', index.index)
-      store.commit('setData', index.data)
-      store.commit('setTitle', index.title)
-      store.commit('setThumbnail', index.thumbnail)
-      store.commit('setDescription', index.description)
-      store.commit('setAttribution', index.attribution)
+      this.$searchUtils.initStore(store, index)
     }
 
     if (Object.keys(state.facetLabels)) {

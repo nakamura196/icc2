@@ -173,13 +173,7 @@ export default class Page extends Vue {
         return
       }
       const index = await context.app.$searchUtils.createIndex(uri)
-      store.commit('setIndex', index.index)
-      store.commit('setData', index.data)
-      store.commit('setTitle', index.title)
-      store.commit('setThumbnail', index.thumbnail)
-      store.commit('setDescription', index.description)
-      store.commit('setAttribution', index.attribution)
-      store.commit('setJson', index.json)
+      context.app.$searchUtils.initStore(store, index)
     }
   }
 }
