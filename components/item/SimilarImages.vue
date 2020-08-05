@@ -42,16 +42,10 @@ export default class morelikethis extends Vue {
     for (let i = 0; i < data.length; i++) {
       const id = data[i]._id
       tmp[id] = data[i]
-      if (id === itemId) {
-        console.log(data[i])
-      }
       if (id === itemId && data[i].images) {
-        console.log(data[i])
         arr = data[i].images
       }
     }
-
-    console.log({ arr })
 
     const moreLikeThisData = []
 

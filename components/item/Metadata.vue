@@ -136,6 +136,7 @@
     </v-container>
 
     <v-container fluid>
+      <Entities class="mb-5" :item-id="metadata._id" />
       <MoreLikeThis class="mb-5" :item-id="metadata._id" />
 
       <SimilarImages class="mb-5" :item-id="metadata._id" />
@@ -163,6 +164,7 @@
 import { Prop, Component, Vue } from 'nuxt-property-decorator'
 import ShareButtons from '~/components/common/ShareButtons.vue'
 import IIIFViewers from '~/components/item/IIIFViewers.vue'
+import Entities from '~/components/item/Entities.vue'
 import MoreLikeThis from '~/components/item/MoreLikeThis.vue'
 import SimilarImages from '~/components/item/SimilarImages.vue'
 
@@ -170,6 +172,7 @@ import SimilarImages from '~/components/item/SimilarImages.vue'
   components: {
     ShareButtons,
     IIIFViewers,
+    Entities,
     MoreLikeThis,
     SimilarImages,
   },

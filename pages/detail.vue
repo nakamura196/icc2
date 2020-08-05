@@ -233,7 +233,7 @@ export default class PageCategory extends Vue {
   }
 
   api4(uri: string) {
-    const endpoint: string = 'http://localhost:8008/api.json'
+    const endpoint: string = this.$store.state.api
     const self = this
     axios.get(endpoint).then(function (data) {
       const result = data.data
@@ -282,7 +282,7 @@ export default class PageCategory extends Vue {
   }
 
   api3(property: string, uri: string) {
-    const endpoint: string = 'http://localhost:8008/api.json'
+    const endpoint: string = this.$store.state.api
     const self = this
     axios.get(endpoint).then(function (data) {
       const result = data.data
