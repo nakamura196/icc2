@@ -88,7 +88,7 @@ export default class PageCategory extends Vue {
   label: string = ''
   description: string = ''
 
-  field: string = ''
+  field: any = ''
 
   map: string[] = []
 
@@ -120,7 +120,7 @@ export default class PageCategory extends Vue {
     label = 'schema:creator'
     */
 
-    const uri = this.$route.query.uri
+    const uri: any = this.$route.query.uri
     const data: any = await this.api2(uri)
     this.image = data['schema:image'] ? data['schema:image'][0]['@id'] : ''
     this.label = data['rdfs:label'] ? data['rdfs:label'][0]['@value'] : ''
@@ -168,7 +168,7 @@ export default class PageCategory extends Vue {
 
   result: any = []
 
-  async api2(uri) {
+  async api2(uri: string) {
     const endpoint: string = this.$store.state.api
     const result = await axios.get(endpoint).then(function (data) {
       const result = data.data
@@ -182,7 +182,7 @@ export default class PageCategory extends Vue {
     return result
   }
 
-  api(property, uris) {
+  api(property: string, uris: string[]) {
     const endpoint: string = this.$store.state.api
     const self = this
     axios.get(endpoint).then(function (data) {
@@ -205,7 +205,7 @@ export default class PageCategory extends Vue {
           continue
         }
 
-        const newObj = {
+        const newObj: any = {
           _id: obj['@id'],
           _source: {
             _label: [obj['rdfs:label'][0]['@value']],
@@ -232,13 +232,13 @@ export default class PageCategory extends Vue {
     })
   }
 
-  api4(uri) {
+  api4(uri: string) {
     const endpoint: string = 'http://localhost:8008/api.json'
     const self = this
     axios.get(endpoint).then(function (data) {
       const result = data.data
 
-      const map = {}
+      const map: any = {}
 
       for (let i = 0; i < result.length; i++) {
         const obj = result[i]
@@ -246,7 +246,7 @@ export default class PageCategory extends Vue {
           const arr = obj[property]
           for (let j = 0; j < arr.length; j++) {
             if (arr[j]['@id'] === uri) {
-              const newObj = {
+              const newObj: any = {
                 _id: obj['@id'],
                 _source: {
                   _label: [obj['rdfs:label'][0]['@value']],
@@ -281,7 +281,7 @@ export default class PageCategory extends Vue {
     })
   }
 
-  api3(property, uri) {
+  api3(property: string, uri: string) {
     const endpoint: string = 'http://localhost:8008/api.json'
     const self = this
     axios.get(endpoint).then(function (data) {
@@ -304,7 +304,7 @@ export default class PageCategory extends Vue {
             values[0]['@id'] === uri &&
             obj['@id'] !== self.$route.query.uri
           ) {
-            const newObj = {
+            const newObj: any = {
               _id: obj['@id'],
               _source: {
                 _thumbnail: [obj['schema:image'][0]['@id']],
@@ -324,8 +324,8 @@ export default class PageCategory extends Vue {
     })
   }
 
-  getQuery(label) {
-    const result = {
+  getQuery(label: string) {
+    const result: any = {
       u: this.$route.query.u,
     }
     result['fc-' + /* this.field */ 'schema:subject'] = label

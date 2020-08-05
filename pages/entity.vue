@@ -262,7 +262,7 @@ export default class PageCategory extends Vue {
 
   result: any = []
 
-  api(uri) {
+  api(uri: string) {
     const self: any = this
     const endpoint: string = this.$store.state.api
     axios.get(endpoint).then(function (data) {
@@ -276,8 +276,8 @@ export default class PageCategory extends Vue {
     })
   }
 
-  getQuery(obj) {
-    const result = {
+  getQuery(obj: any) {
+    const result: any = {
       u: this.$route.query.u,
     }
     result['fc-' + this.label] = obj['rdfs:label']
