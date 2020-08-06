@@ -604,6 +604,8 @@ export class SearchUtils {
 
     const pendings: any = {}
 
+    const entities: any = {}
+
     for (let i = 0; i < selections.length; i++) {
       const selection = selections[i]
       const members = selection.members
@@ -642,6 +644,7 @@ export class SearchUtils {
           pendings[manifest][pos - 1] = member['@id']
         }
 
+        const entity: any = {}
         const metadata = member.metadata
         if (metadata) {
           for (let k = 0; k < metadata.length; k++) {
@@ -662,6 +665,48 @@ export class SearchUtils {
               if (!obj[m.label].includes(value)) {
                 obj[m.label].push(value)
               }
+            }
+
+            // entity
+            if (m.property) {
+              const propertyUri = m.property
+              if (!entity[propertyUri]) {
+                entity[propertyUri] = {}
+              }
+
+              if (m.uri) {
+                if (!entity[propertyUri][m.uri]) {
+                  entity[propertyUri][m.uri] = {
+                    label: m.value,
+                  }
+                }
+              } else if (!entity[propertyUri][m.value]) {
+                entity[propertyUri][m.valu] = {
+                  label: m.value,
+                }
+              }
+            }
+
+            // entity
+            if (m.property) {
+              const property = m.property
+
+              if (!entities[property]) {
+                entities[property] = {}
+              }
+
+              const uri = m.uri
+              const label = m.value
+
+              if (!entities[property][uri]) {
+                entities[property][uri] = {
+                  label,
+                  count: 0,
+                }
+              }
+
+              const count = entities[property][uri].count + 1
+              entities[property][uri].count = count
             }
           }
         }
@@ -718,6 +763,7 @@ export class SearchUtils {
         const item: any = {
           _id: member['@id'],
           _source: obj,
+          entity,
         }
 
         if (member.images) {
@@ -775,6 +821,8 @@ export class SearchUtils {
       title,
       thumbnail,
       json: curation,
+      entity: entities,
+      api: curation.api,
     }
   }
 
