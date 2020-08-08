@@ -196,6 +196,8 @@ import FacetSearchOptions from '~/components/search/FacetSearchOptions.vue'
 export default class search extends Vue {
   height: any = window.innerHeight
 
+  baseUrl: any = process.env.BASE_URL
+
   mounted() {
     // this.height -= document.getElementById('head').style.height
   }
@@ -233,7 +235,11 @@ export default class search extends Vue {
       param.canvas = memberId
     }
     const params = [param]
-    return '/mirador/?params=' + encodeURIComponent(JSON.stringify(params))
+    return (
+      this.baseUrl +
+      '/mirador/?params=' +
+      encodeURIComponent(JSON.stringify(params))
+    )
   }
 
   loadingFlag: boolean = false
