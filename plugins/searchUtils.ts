@@ -444,6 +444,9 @@ export class SearchUtils {
     store.commit('setJson', index.json)
     store.commit('setEntity', index.entity)
     store.commit('setApi', index.api)
+    if (index.layout) {
+      store.commit('setLayout', index.layout)
+    }
   }
 
   async createIndex(u: string): Promise<any> {
@@ -830,6 +833,11 @@ export class SearchUtils {
       }
     }
 
+    let layout = 'list'
+    if (curation.viewingHint === 'annotation') {
+      layout = 'table'
+    }
+
     return {
       data,
       index,
@@ -838,6 +846,7 @@ export class SearchUtils {
       json: curation,
       entity: entities,
       api: curation.api,
+      layout,
     }
   }
 

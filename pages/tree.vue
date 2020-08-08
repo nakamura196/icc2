@@ -140,9 +140,13 @@ export default class PageTree extends Vue {
         children.push(obj)
       }
 
+      const name = selection.within.label
+        ? selection.within.label
+        : this.$t('top')
+
       const obj = {
         id: selection['@id'],
-        name: selection.within.label,
+        name,
         type: selection['@type'],
         children,
       }
@@ -156,8 +160,10 @@ export default class PageTree extends Vue {
   rec(/* items, */ collection: any) {
     const children = collection.collections || collection.manifests
 
+    const id = collection['@id'] || Math.random().toString(32).substring(2)
+
     const obj: any = {
-      id: collection['@id'],
+      id,
       name: collection.label,
       type: collection['@type'],
     }
