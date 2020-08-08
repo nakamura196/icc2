@@ -1,5 +1,9 @@
 <template>
   <span>
+    <v-btn depressed icon @click="view">
+      <!-- {{ $t('view') }} color="primary" -->
+      <v-icon>mdi-eye</v-icon>
+    </v-btn>
     <v-btn
       v-if="item.manifest"
       depressed
@@ -138,6 +142,11 @@ export default class resultoption extends Vue {
   get url() {
     // return process.env.BASE_URL + '/item/' + this.id
     return this.item.url
+  }
+
+  view() {
+    this.$store.commit('setCurrentManifest', this.item.manifest)
+    this.$store.commit('setCurrentMember', this.item.id)
   }
 }
 </script>

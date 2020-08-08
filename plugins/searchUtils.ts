@@ -656,6 +656,13 @@ export class SearchUtils {
               values = [values]
             }
 
+            const value = values[0]
+            if (value && value['@type'] === 'oa:Annotation') {
+              const chars = value.resource.chars.replace(/<[^>]*>?/gm, '')
+              obj._label = [chars]
+              continue
+            }
+
             if (!obj[m.label]) {
               obj[m.label] = []
             }
@@ -728,8 +735,16 @@ export class SearchUtils {
               continue
             }
 
+            if (value && value['@id']) {
+              continue
+            }
+
             // URIの場合は無視
-            if (value && value.startsWith('http') && key !== '_manifest') {
+            if (
+              value &&
+              String(value).startsWith('http') &&
+              key !== '_manifest'
+            ) {
               continue
             }
 
@@ -807,7 +822,7 @@ export class SearchUtils {
         let image = canvasImgMap[canvasUri]
         if (image) {
           if (image.includes('info.json')) {
-            image = image.replace('info.json', area + '/200,/0/default.jpg')
+            image = image.replace('info.json', area + '/256,/0/default.jpg')
           }
 
           data[Number(i)]._source._thumbnail = [image]

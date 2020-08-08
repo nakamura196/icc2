@@ -1,117 +1,22 @@
 <template>
   <div>
-    <v-sheet color="grey lighten-3">
-      <SearchFilter />
-    </v-sheet>
-
-    <v-container fluid>
-      <v-row dense>
-        <v-col class="py-0 my-0" cols="12" sm="6" lg="8">
-          <h2 class="my-2" style="vertical-align: middle;">
-            {{ $t('search_result') }}: {{ total.toLocaleString()
-            }}{{ $t('hits') }}
-          </h2>
-        </v-col>
-        <v-col class="py-0 my-0" cols="12" sm="6" lg="4">
-          <v-row dense>
-            <template v-if="layout_ !== 'stats'">
-              <v-col class="py-0 my-0" cols="12" sm="3">
-                <v-select
-                  v-model="sort"
-                  :items="computedItemsSort"
-                  :label="$t('Sort by')"
-                  @change="setSort"
-                ></v-select>
-              </v-col>
-              <v-col class="py-0 my-0" cols="12" sm="3">
-                <v-select
-                  v-model="size"
-                  :items="[
-                    { value: 24, text: '24' },
-                    { value: 60, text: '60' },
-                    { value: 120, text: '120' },
-                    { value: 512, text: '512' },
-                  ]"
-                  :label="$t('items_per_page')"
-                  @change="setSize"
-                ></v-select>
-              </v-col>
-            </template>
-            <v-col class="py-0 my-0" cols="12" sm="3">
-              <v-select
-                v-model="layout_"
-                :items="layouts"
-                :label="$t('layout')"
-              ></v-select>
-            </v-col>
-            <!-- && !mobileFlag -->
-            <v-col
-              v-show="
-                (layout_ === 'grid' || layout_ === 'image') &&
-                $vuetify.breakpoint.name != 'xs'
-              "
-              cols="12"
-              sm="3"
-              class="py-0 my-0"
-            >
-              <v-select
-                v-model="col"
-                :label="$t('col')"
-                :items="[
-                  { value: 1, text: '1' },
-                  { value: 2, text: '2' },
-                  { value: 3, text: '3' },
-                  { value: 4, text: '4' },
-                  { value: 6, text: '6' },
-                  { value: 12, text: '12' },
-                ]"
-              ></v-select>
-            </v-col>
-          </v-row>
-        </v-col>
-      </v-row>
-
-      <v-row>
-        <v-col
-          cols="12"
-          :sm="facetFlag ? 8 : 12"
-          :md="facetFlag ? 9 : 12"
-          order-sm="12"
+    <v-row dense>
+      <v-col
+        v-if="facetFlag"
+        cols="12"
+        :sm="facetFlag ? 4 : 0"
+        :md="facetFlag ? 3 : 0"
+      >
+        <div
+          :style="'height: ' + (height - (64 + 10)) + 'px'"
+          class="overflow-y-auto pa-4"
         >
-          <v-row v-if="false" no-gutters align="center">
-            <!--
-            <v-col cols="12" sm="4"> </v-col> -->
-            <!-- sm="8" -->
-            <v-col cols="12" :sm="8" :lg="6" align="center"> </v-col>
-          </v-row>
-
-          <template v-if="total > 0">
-            <div class="text-center my-5">
-              <v-pagination
-                v-show="layout_ !== 'stats' && layout_ !== 'map'"
-                v-model="currentPage"
-                :length="paginationLength"
-                :total-visible="7"
-                @input="setCurrentPage"
-              ></v-pagination>
-            </div>
-            <SearchResult />
-
-            <div class="text-center my-5">
-              <v-pagination
-                v-show="layout_ !== 'stats' && layout_ !== 'map'"
-                v-model="currentPage"
-                :length="paginationLength"
-                :total-visible="7"
-                @input="setCurrentPage"
-              ></v-pagination>
-            </div>
-          </template>
-        </v-col>
-
-        <v-col :sm="4" :md="3" order-sm="1">
+          <v-sheet color="grey lighten-3">
+            <SearchFilter class="mb-4" />
+          </v-sheet>
           <template v-if="total > 0">
             <h3 class="mb-0">
+              <!--
               <v-tooltip bottom>
                 <template v-slot:activator="{ on }">
                   <v-icon v-on="on" @click="facetFlag = !facetFlag">{{
@@ -124,14 +29,151 @@
                   facetFlag ? $t('close_facets') : $t('open_facets')
                 }}</span>
               </v-tooltip>
+              -->
               {{ $t('refine_your_search') }}
             </h3>
             <FacetSearchOptions v-show="facetFlag" class="mt-5" />
             <!-- v-if="results.aggregations"  -->
           </template>
-        </v-col>
-      </v-row>
-    </v-container>
+        </div></v-col
+      >
+      <v-col cols="12" :sm="facetFlag ? 8 : 12" :md="facetFlag ? 9 : 12">
+        <v-row dense>
+          <v-col cols="12" :sm="manifest != '' ? 7 : 12">
+            <div
+              :style="'height: ' + (height * 0.99 - (64 + 10)) + 'px'"
+              class="overflow-y-auto pa-4"
+            >
+              <v-row dense>
+                <h3 class="mb-0">
+                  <v-tooltip bottom>
+                    <template v-slot:activator="{ on }">
+                      <v-icon v-on="on" @click="facetFlag = !facetFlag">{{
+                        facetFlag
+                          ? 'mdi-arrow-collapse-left'
+                          : 'mdi-arrow-collapse-right'
+                      }}</v-icon>
+                    </template>
+                    <span>{{
+                      facetFlag ? $t('close_facets') : $t('open_facets')
+                    }}</span>
+                  </v-tooltip>
+                  {{ $t('search_result') }}: {{ total.toLocaleString()
+                  }}{{ $t('hits') }}
+                </h3>
+                <v-col class="mt-4" cols="12">
+                  <v-row dense>
+                    <template v-if="layout_ !== 'stats'">
+                      <v-col class="py-0 my-0" cols="12" sm="3">
+                        <v-select
+                          v-model="sort"
+                          :items="computedItemsSort"
+                          :label="$t('Sort by')"
+                          @change="setSort"
+                        ></v-select>
+                      </v-col>
+                      <v-col class="py-0 my-0" cols="12" sm="3">
+                        <v-select
+                          v-model="size"
+                          :items="[
+                            { value: 24, text: '24' },
+                            { value: 60, text: '60' },
+                            { value: 120, text: '120' },
+                            { value: 512, text: '512' },
+                          ]"
+                          :label="$t('items_per_page')"
+                          @change="setSize"
+                        ></v-select>
+                      </v-col>
+                    </template>
+                    <v-col class="py-0 my-0" cols="12" sm="3">
+                      <v-select
+                        v-model="layout_"
+                        :items="layouts"
+                        :label="$t('layout')"
+                      ></v-select>
+                    </v-col>
+                    <!-- && !mobileFlag -->
+                    <v-col
+                      v-show="
+                        (layout_ === 'grid' || layout_ === 'image') &&
+                        $vuetify.breakpoint.name != 'xs'
+                      "
+                      cols="12"
+                      sm="3"
+                      class="py-0 my-0"
+                    >
+                      <v-select
+                        v-model="col"
+                        :label="$t('col')"
+                        :items="[
+                          { value: 1, text: '1' },
+                          { value: 2, text: '2' },
+                          { value: 3, text: '3' },
+                          { value: 4, text: '4' },
+                          { value: 6, text: '6' },
+                          { value: 12, text: '12' },
+                        ]"
+                      ></v-select>
+                    </v-col>
+                  </v-row>
+                </v-col>
+              </v-row>
+
+              <template v-if="total > 0">
+                <div class="text-center my-5">
+                  <v-pagination
+                    v-show="layout_ !== 'stats' && layout_ !== 'map'"
+                    v-model="currentPage"
+                    :length="paginationLength"
+                    :total-visible="7"
+                    @input="setCurrentPage"
+                  ></v-pagination>
+                </div>
+                <SearchResult />
+
+                <div class="text-center my-5">
+                  <v-pagination
+                    v-show="layout_ !== 'stats' && layout_ !== 'map'"
+                    v-model="currentPage"
+                    :length="paginationLength"
+                    :total-visible="7"
+                    @input="setCurrentPage"
+                  ></v-pagination>
+                </div>
+              </template>
+            </div>
+          </v-col>
+          <v-col v-if="manifest != ''" cols="12" :sm="manifest != '' ? 5 : 0">
+            <div
+              :style="'height: ' + (height * 0.99 - (64 + 10)) + 'px'"
+              class="overflow-y-auto pa-4"
+            >
+              <iframe
+                class=""
+                :src="miradorPath"
+                seamless="seamless"
+                width="100%"
+                :height="height * 0.8 + 'px'"
+                style="border: none;"
+                allow="fullscreen"
+              ></iframe>
+              <div class="text-right">
+                <v-btn
+                  class="mt-2 mb-2"
+                  color="primary"
+                  @click="
+                    manifest = ''
+                    memberId = ''
+                  "
+                  >{{ $t('close') }}</v-btn
+                >
+              </div>
+            </div>
+          </v-col>
+        </v-row>
+      </v-col>
+    </v-row>
   </div>
 </template>
 
@@ -152,6 +194,48 @@ import FacetSearchOptions from '~/components/search/FacetSearchOptions.vue'
   watchQuery: true,
 })
 export default class search extends Vue {
+  height: any = window.innerHeight
+
+  mounted() {
+    // this.height -= document.getElementById('head').style.height
+  }
+
+  get memberId() {
+    return this.$store.state.currentMember
+  }
+
+  set memberId(value) {
+    this.$store.commit('setCurrentMember', value)
+  }
+
+  get manifest() {
+    return this.$store.state.currentManifest
+  }
+
+  set manifest(value) {
+    this.$store.commit('setCurrentManifest', value)
+  }
+
+  string = ''
+
+  get miradorPath() {
+    const manifest = this.manifest
+    if (manifest === '') {
+      return null
+    }
+    const memberId: string = this.memberId
+
+    const param: any = {
+      manifest,
+    }
+    // 要検討
+    if (memberId !== manifest) {
+      param.canvas = memberId
+    }
+    const params = [param]
+    return '/mirador/?params=' + encodeURIComponent(JSON.stringify(params))
+  }
+
   loadingFlag: boolean = false
 
   // ソート項目
@@ -226,6 +310,9 @@ export default class search extends Vue {
     const store = context.store
     const state = store.state
 
+    // 初期化
+    store.commit('setCurrentManifest', '')
+
     // ------ インデックス ---------
 
     if (state.index == null) {
@@ -240,8 +327,6 @@ export default class search extends Vue {
       const index = await context.app.$searchUtils.createIndex(uri)
       context.app.$searchUtils.initStore(store, index)
     }
-
-    console.log(state)
 
     // ------ ファセット ---------
 
@@ -451,5 +536,8 @@ export default class search extends Vue {
 
     return arr
   }
+
+  text =
+    ' <link rel="preload" href="/runtime~app.9e334eaa15688c4b1249.js" as="script"><link rel="preload" href="/common.e61b5424e4663448f46c.css" as="style"><link rel="preload" href="/vendors~app.e61b5424e4663448f46c.js" as="script"><link rel="preload" href="/common.950630d7145f9aa5224d.css" as="style"><link rel="preload" href="/app.950630d7145f9aa5224d.js" as="script"><link rel="preload" href="/layout-root-Index.9902e555ebf8f251f7d2.js" as="script"><link rel="preload" href="/layout-documentation-Index.79f7b3be2dfbb8983e70.js" as="script"><link rel="preload" href="/common.b4fe1dc57429f7fff241.css" as="style"><link rel="preload" href="/1485.b4fe1dc57429f7fff241.js" as="script"><link rel="preload" href="/common.f41e999ee1a08efaa008.css" as="style"><link rel="preload" href="/1447.f41e999ee1a08efaa008.js" as="script"><link rel="preload" href="/1666.bd28631bc9a4931eefd8.js" as="script"><link rel="preload" href="/1668.aa0c942993a126b2d8fc.js" as="script"><link rel="preload" href="/1664.ebba05acee86095e1fd7.js" as="script"><link rel="preload" href="/common.2ef87f5b8f92941cac3a.css" as="style"><link rel="preload" href="/1483.2ef87f5b8f92941cac3a.js" as="script"><link rel="preload" href="/1665.6343ca474931c2bf3246.js" as="script"><link rel="preload" href="/common.53d1c392fc334c5d7186.css" as="style"><link rel="preload" href="/1486.53d1c392fc334c5d7186.js" as="script"><link rel="preload" href="/1667.1d5caaccb431e373e583.js" as="script"><link rel="stylesheet" href="/common.e61b5424e4663448f46c.css"><link rel="stylesheet" href="/common.950630d7145f9aa5224d.css"><link rel="stylesheet" href="/common.b4fe1dc57429f7fff241.css"><link rel="stylesheet" href="/common.f41e999ee1a08efaa008.css"><link rel="stylesheet" href="/common.2ef87f5b8f92941cac3a.css"><link rel="stylesheet" href="/common.53d1c392fc334c5d7186.css"></head> <link rel="preload" href="/runtime~app.9e334eaa15688c4b1249.js" as="script"><link rel="preload" href="/common.e61b5424e4663448f46c.css" as="style"><link rel="preload" href="/vendors~app.e61b5424e4663448f46c.js" as="script"><link rel="preload" href="/common.950630d7145f9aa5224d.css" as="style"><link rel="preload" href="/app.950630d7145f9aa5224d.js" as="script"><link rel="preload" href="/layout-root-Index.9902e555ebf8f251f7d2.js" as="script"><link rel="preload" href="/layout-documentation-Index.79f7b3be2dfbb8983e70.js" as="script"><link rel="preload" href="/common.b4fe1dc57429f7fff241.css" as="style"><link rel="preload" href="/1485.b4fe1dc57429f7fff241.js" as="script"><link rel="preload" href="/common.f41e999ee1a08efaa008.css" as="style"><link rel="preload" href="/1447.f41e999ee1a08efaa008.js" as="script"><link rel="preload" href="/1666.bd28631bc9a4931eefd8.js" as="script"><link rel="preload" href="/1668.aa0c942993a126b2d8fc.js" as="script"><link rel="preload" href="/1664.ebba05acee86095e1fd7.js" as="script"><link rel="preload" href="/common.2ef87f5b8f92941cac3a.css" as="style"><link rel="preload" href="/1483.2ef87f5b8f92941cac3a.js" as="script"><link rel="preload" href="/1665.6343ca474931c2bf3246.js" as="script"><link rel="preload" href="/common.53d1c392fc334c5d7186.css" as="style"><link rel="preload" href="/1486.53d1c392fc334c5d7186.js" as="script"><link rel="preload" href="/1667.1d5caaccb431e373e583.js" as="script"><link rel="stylesheet" href="/common.e61b5424e4663448f46c.css"><link rel="stylesheet" href="/common.950630d7145f9aa5224d.css"><link rel="stylesheet" href="/common.b4fe1dc57429f7fff241.css"><link rel="stylesheet" href="/common.f41e999ee1a08efaa008.css"><link rel="stylesheet" href="/common.2ef87f5b8f92941cac3a.css"><link rel="stylesheet" href="/common.53d1c392fc334c5d7186.css"></head> <link rel="preload" href="/runtime~app.9e334eaa15688c4b1249.js" as="script"><link rel="preload" href="/common.e61b5424e4663448f46c.css" as="style"><link rel="preload" href="/vendors~app.e61b5424e4663448f46c.js" as="script"><link rel="preload" href="/common.950630d7145f9aa5224d.css" as="style"><link rel="preload" href="/app.950630d7145f9aa5224d.js" as="script"><link rel="preload" href="/layout-root-Index.9902e555ebf8f251f7d2.js" as="script"><link rel="preload" href="/layout-documentation-Index.79f7b3be2dfbb8983e70.js" as="script"><link rel="preload" href="/common.b4fe1dc57429f7fff241.css" as="style"><link rel="preload" href="/1485.b4fe1dc57429f7fff241.js" as="script"><link rel="preload" href="/common.f41e999ee1a08efaa008.css" as="style"><link rel="preload" href="/1447.f41e999ee1a08efaa008.js" as="script"><link rel="preload" href="/1666.bd28631bc9a4931eefd8.js" as="script"><link rel="preload" href="/1668.aa0c942993a126b2d8fc.js" as="script"><link rel="preload" href="/1664.ebba05acee86095e1fd7.js" as="script"><link rel="preload" href="/common.2ef87f5b8f92941cac3a.css" as="style"><link rel="preload" href="/1483.2ef87f5b8f92941cac3a.js" as="script"><link rel="preload" href="/1665.6343ca474931c2bf3246.js" as="script"><link rel="preload" href="/common.53d1c392fc334c5d7186.css" as="style"><link rel="preload" href="/1486.53d1c392fc334c5d7186.js" as="script"><link rel="preload" href="/1667.1d5caaccb431e373e583.js" as="script"><link rel="stylesheet" href="/common.e61b5424e4663448f46c.css"><link rel="stylesheet" href="/common.950630d7145f9aa5224d.css"><link rel="stylesheet" href="/common.b4fe1dc57429f7fff241.css"><link rel="stylesheet" href="/common.f41e999ee1a08efaa008.css"><link rel="stylesheet" href="/common.2ef87f5b8f92941cac3a.css"><link rel="stylesheet" href="/common.53d1c392fc334c5d7186.css"></head> <link rel="preload" href="/runtime~app.9e334eaa15688c4b1249.js" as="script"><link rel="preload" href="/common.e61b5424e4663448f46c.css" as="style"><link rel="preload" href="/vendors~app.e61b5424e4663448f46c.js" as="script"><link rel="preload" href="/common.950630d7145f9aa5224d.css" as="style"><link rel="preload" href="/app.950630d7145f9aa5224d.js" as="script"><link rel="preload" href="/layout-root-Index.9902e555ebf8f251f7d2.js" as="script"><link rel="preload" href="/layout-documentation-Index.79f7b3be2dfbb8983e70.js" as="script"><link rel="preload" href="/common.b4fe1dc57429f7fff241.css" as="style"><link rel="preload" href="/1485.b4fe1dc57429f7fff241.js" as="script"><link rel="preload" href="/common.f41e999ee1a08efaa008.css" as="style"><link rel="preload" href="/1447.f41e999ee1a08efaa008.js" as="script"><link rel="preload" href="/1666.bd28631bc9a4931eefd8.js" as="script"><link rel="preload" href="/1668.aa0c942993a126b2d8fc.js" as="script"><link rel="preload" href="/1664.ebba05acee86095e1fd7.js" as="script"><link rel="preload" href="/common.2ef87f5b8f92941cac3a.css" as="style"><link rel="preload" href="/1483.2ef87f5b8f92941cac3a.js" as="script"><link rel="preload" href="/1665.6343ca474931c2bf3246.js" as="script"><link rel="preload" href="/common.53d1c392fc334c5d7186.css" as="style"><link rel="preload" href="/1486.53d1c392fc334c5d7186.js" as="script"><link rel="preload" href="/1667.1d5caaccb431e373e583.js" as="script"><link rel="stylesheet" href="/common.e61b5424e4663448f46c.css"><link rel="stylesheet" href="/common.950630d7145f9aa5224d.css"><link rel="stylesheet" href="/common.b4fe1dc57429f7fff241.css"><link rel="stylesheet" href="/common.f41e999ee1a08efaa008.css"><link rel="stylesheet" href="/common.2ef87f5b8f92941cac3a.css"><link rel="stylesheet" href="/common.53d1c392fc334c5d7186.css"></head> <link rel="preload" href="/runtime~app.9e334eaa15688c4b1249.js" as="script"><link rel="preload" href="/common.e61b5424e4663448f46c.css" as="style"><link rel="preload" href="/vendors~app.e61b5424e4663448f46c.js" as="script"><link rel="preload" href="/common.950630d7145f9aa5224d.css" as="style"><link rel="preload" href="/app.950630d7145f9aa5224d.js" as="script"><link rel="preload" href="/layout-root-Index.9902e555ebf8f251f7d2.js" as="script"><link rel="preload" href="/layout-documentation-Index.79f7b3be2dfbb8983e70.js" as="script"><link rel="preload" href="/common.b4fe1dc57429f7fff241.css" as="style"><link rel="preload" href="/1485.b4fe1dc57429f7fff241.js" as="script"><link rel="preload" href="/common.f41e999ee1a08efaa008.css" as="style"><link rel="preload" href="/1447.f41e999ee1a08efaa008.js" as="script"><link rel="preload" href="/1666.bd28631bc9a4931eefd8.js" as="script"><link rel="preload" href="/1668.aa0c942993a126b2d8fc.js" as="script"><link rel="preload" href="/1664.ebba05acee86095e1fd7.js" as="script"><link rel="preload" href="/common.2ef87f5b8f92941cac3a.css" as="style"><link rel="preload" href="/1483.2ef87f5b8f92941cac3a.js" as="script"><link rel="preload" href="/1665.6343ca474931c2bf3246.js" as="script"><link rel="preload" href="/common.53d1c392fc334c5d7186.css" as="style"><link rel="preload" href="/1486.53d1c392fc334c5d7186.js" as="script"><link rel="preload" href="/1667.1d5caaccb431e373e583.js" as="script"><link rel="stylesheet" href="/common.e61b5424e4663448f46c.css"><link rel="stylesheet" href="/common.950630d7145f9aa5224d.css"><link rel="stylesheet" href="/common.b4fe1dc57429f7fff241.css"><link rel="stylesheet" href="/common.f41e999ee1a08efaa008.css"><link rel="stylesheet" href="/common.2ef87f5b8f92941cac3a.css"><link rel="stylesheet" href="/common.53d1c392fc334c5d7186.css"></head> <link rel="preload" href="/runtime~app.9e334eaa15688c4b1249.js" as="script"><link rel="preload" href="/common.e61b5424e4663448f46c.css" as="style"><link rel="preload" href="/vendors~app.e61b5424e4663448f46c.js" as="script"><link rel="preload" href="/common.950630d7145f9aa5224d.css" as="style"><link rel="preload" href="/app.950630d7145f9aa5224d.js" as="script"><link rel="preload" href="/layout-root-Index.9902e555ebf8f251f7d2.js" as="script"><link rel="preload" href="/layout-documentation-Index.79f7b3be2dfbb8983e70.js" as="script"><link rel="preload" href="/common.b4fe1dc57429f7fff241.css" as="style"><link rel="preload" href="/1485.b4fe1dc57429f7fff241.js" as="script"><link rel="preload" href="/common.f41e999ee1a08efaa008.css" as="style"><link rel="preload" href="/1447.f41e999ee1a08efaa008.js" as="script"><link rel="preload" href="/1666.bd28631bc9a4931eefd8.js" as="script"><link rel="preload" href="/1668.aa0c942993a126b2d8fc.js" as="script"><link rel="preload" href="/1664.ebba05acee86095e1fd7.js" as="script"><link rel="preload" href="/common.2ef87f5b8f92941cac3a.css" as="style"><link rel="preload" href="/1483.2ef87f5b8f92941cac3a.js" as="script"><link rel="preload" href="/1665.6343ca474931c2bf3246.js" as="script"><link rel="preload" href="/common.53d1c392fc334c5d7186.css" as="style"><link rel="preload" href="/1486.53d1c392fc334c5d7186.js" as="script"><link rel="preload" href="/1667.1d5caaccb431e373e583.js" as="script"><link rel="stylesheet" href="/common.e61b5424e4663448f46c.css"><link rel="stylesheet" href="/common.950630d7145f9aa5224d.css"><link rel="stylesheet" href="/common.b4fe1dc57429f7fff241.css"><link rel="stylesheet" href="/common.f41e999ee1a08efaa008.css"><link rel="stylesheet" href="/common.2ef87f5b8f92941cac3a.css"><link rel="stylesheet" href="/common.53d1c392fc334c5d7186.css"></head> <link rel="preload" href="/runtime~app.9e334eaa15688c4b1249.js" as="script"><link rel="preload" href="/common.e61b5424e4663448f46c.css" as="style"><link rel="preload" href="/vendors~app.e61b5424e4663448f46c.js" as="script"><link rel="preload" href="/common.950630d7145f9aa5224d.css" as="style"><link rel="preload" href="/app.950630d7145f9aa5224d.js" as="script"><link rel="preload" href="/layout-root-Index.9902e555ebf8f251f7d2.js" as="script"><link rel="preload" href="/layout-documentation-Index.79f7b3be2dfbb8983e70.js" as="script"><link rel="preload" href="/common.b4fe1dc57429f7fff241.css" as="style"><link rel="preload" href="/1485.b4fe1dc57429f7fff241.js" as="script"><link rel="preload" href="/common.f41e999ee1a08efaa008.css" as="style"><link rel="preload" href="/1447.f41e999ee1a08efaa008.js" as="script"><link rel="preload" href="/1666.bd28631bc9a4931eefd8.js" as="script"><link rel="preload" href="/1668.aa0c942993a126b2d8fc.js" as="script"><link rel="preload" href="/1664.ebba05acee86095e1fd7.js" as="script"><link rel="preload" href="/common.2ef87f5b8f92941cac3a.css" as="style"><link rel="preload" href="/1483.2ef87f5b8f92941cac3a.js" as="script"><link rel="preload" href="/1665.6343ca474931c2bf3246.js" as="script"><link rel="preload" href="/common.53d1c392fc334c5d7186.css" as="style"><link rel="preload" href="/1486.53d1c392fc334c5d7186.js" as="script"><link rel="preload" href="/1667.1d5caaccb431e373e583.js" as="script"><link rel="stylesheet" href="/common.e61b5424e4663448f46c.css"><link rel="stylesheet" href="/common.950630d7145f9aa5224d.css"><link rel="stylesheet" href="/common.b4fe1dc57429f7fff241.css"><link rel="stylesheet" href="/common.f41e999ee1a08efaa008.css"><link rel="stylesheet" href="/common.2ef87f5b8f92941cac3a.css"><link rel="stylesheet" href="/common.53d1c392fc334c5d7186.css"></head>'
 }
 </script>

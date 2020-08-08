@@ -51,6 +51,9 @@ export const state = () => ({
   json: null,
   entity: null,
   api: null,
+
+  currentManifest: '',
+  currentMember: '',
 })
 
 export const mutations = {
@@ -291,5 +294,12 @@ export const mutations = {
   },
   setApi(state, value) {
     state.api = value
+  },
+
+  setCurrentManifest(state, value) {
+    state.currentManifest = value
+  },
+  setCurrentMember(state, value) {
+    state.currentMember = value
   },
 }

@@ -40,6 +40,7 @@
             label: $utils.formatArrayValue(item.raw._source._label),
             manifest: $utils.formatArrayValue(item.raw._source._manifest),
             url: encodeURIComponent(getUrl(item.raw)),
+            id: item.id,
           }"
         />
       </template>

@@ -116,7 +116,7 @@
         </v-list-item>
       </v-list>
     </v-navigation-drawer>
-    <v-app-bar flat>
+    <v-app-bar id="head" flat app>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
       <v-toolbar-title>
         <nuxt-link
@@ -126,6 +126,25 @@
           {{ title }}
         </nuxt-link>
       </v-toolbar-title>
+
+      <v-spacer></v-spacer>
+
+      <v-text-field
+        v-model="keywordStr"
+        single-line
+        background-color="grey lighten-2"
+        class="px-4"
+        filled
+        rounded
+        dense
+        hide-details
+        :label="$t('add_a_search_term')"
+        append-icon="mdi-magnify"
+        clearable
+        clear-icon="mdi-close-circle"
+        @click:append="search()"
+        @keydown.enter="trigger"
+      ></v-text-field>
 
       <v-spacer></v-spacer>
 
@@ -153,6 +172,8 @@
         <v-icon>mdi-github</v-icon>
       </v-btn>
     </v-app-bar>
+
+    <!--
     <v-app-bar color="black" flat>
       <v-text-field
         v-model="keywordStr"
@@ -173,6 +194,7 @@
 
       <v-spacer></v-spacer>
     </v-app-bar>
+    -->
   </div>
 </template>
 

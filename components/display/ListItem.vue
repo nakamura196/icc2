@@ -70,6 +70,7 @@
               label: $utils.formatArrayValue(item._source._label),
               manifest: $utils.formatArrayValue(item._source._manifest),
               url: encodeURIComponent(getUrl(item)),
+              id: item._id,
             }"
           />
         </div>

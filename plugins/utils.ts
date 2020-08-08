@@ -470,7 +470,11 @@ export class Utils {
     return result
   }
 
-  truncate(str: string, length: number): string {
+  truncate(str: any, length: number): string {
+    if (str && str['@id']) {
+      return ''
+    }
+    str = String(str)
     return str.length <= length ? str : str.substring(0, length) + '...'
   }
 
