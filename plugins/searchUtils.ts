@@ -788,6 +788,10 @@ export class SearchUtils {
           item.images = member.images
         }
 
+        if (member.texts) {
+          item.texts = member.texts
+        }
+
         data.push(item)
 
         pos += 1
