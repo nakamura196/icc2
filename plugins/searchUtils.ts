@@ -579,6 +579,11 @@ export class SearchUtils {
       }
     }
 
+    let layout = 'list'
+    if (collection.viewingHint === 'grid') {
+      layout = 'grid'
+    }
+
     return {
       data,
       index,
@@ -589,6 +594,7 @@ export class SearchUtils {
       json: collection,
       entity: entities,
       api: collection.api,
+      layout,
     }
   }
 

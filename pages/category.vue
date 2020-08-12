@@ -4,9 +4,12 @@
       <v-container class="py-4">
         <h1>
           <template v-if="$i18n.locale === 'ja'">
-            {{ label }}を一覧する
+            {{ label.startsWith('_') ? $t(label) : label }}を一覧する
           </template>
-          <template v-else> {{ $t('browse_by') }} {{ label }} </template>
+          <template v-else>
+            {{ $t('browse_by') }}
+            {{ label.startsWith('_') ? $t(label) : label }}
+          </template>
           <!-- 
           <template v-if="results.length != 2000">
             &nbsp;({{ total.toLocaleString() }})
@@ -33,7 +36,7 @@
           })
         "
       >
-        {{ value }}
+        {{ value.startsWith('_') ? $t(value) : value }}
       </v-btn>
 
       <v-sheet color="grey lighten-3 py-1 px-3 my-5">
@@ -138,9 +141,12 @@ export default class PageCategory extends Vue {
     // const routeQuery = context.query
 
     let label: any = this.$route.query.field
+
+    /*
     if (label === '_label') {
       label = this.$t(label)
     }
+    */
 
     const map: string[] = []
     const facetLabels = state.facetLabels

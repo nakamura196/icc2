@@ -35,6 +35,7 @@ export default class morelikethis extends Vue {
   }
 
   moreLikeThis() {
+    this.result = []
     const itemId = this.itemId
 
     const data = this.$store.state.data

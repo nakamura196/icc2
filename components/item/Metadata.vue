@@ -1,6 +1,20 @@
 <template>
   <div>
     <v-container class="mt-0 mb-0">
+      <iframe
+        v-if="metadata._source._manifest && dataType == 'sc:Collection'"
+        :key="metadata._id"
+        class="mt-5"
+        :src="
+          'https://universalviewer.io/examples/uv/./uv.html#?manifest=' +
+          encodeURIComponent(metadata._source._manifest)
+        "
+        width="100%"
+        height="600"
+        allowfullscreen
+        frameborder="0"
+      ></iframe>
+
       <v-row class="mt-5">
         <v-col cols="12" sm="8">
           <v-row>
@@ -140,22 +154,6 @@
       <MoreLikeThis class="mb-5" :item-id="metadata._id" />
 
       <SimilarImages class="mb-5" :item-id="metadata._id" />
-    </v-container>
-
-    <v-container
-      v-if="metadata._source._manifest && dataType == 'sc:Collection'"
-    >
-      <iframe
-        :key="metadata._id"
-        :src="
-          'https://universalviewer.io/examples/uv/./uv.html#?manifest=' +
-          encodeURIComponent(metadata._source._manifest)
-        "
-        width="100%"
-        height="600"
-        allowfullscreen
-        frameborder="0"
-      ></iframe>
     </v-container>
   </div>
 </template>
