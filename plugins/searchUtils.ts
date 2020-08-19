@@ -603,6 +603,10 @@ export class SearchUtils {
     let thumbnail = ''
     const curationUri: string = curation['@id']
 
+    if (curation.thumbnail) {
+      thumbnail = curation.thumbnail
+    }
+
     const data = []
 
     const selections = curation.selections
@@ -626,7 +630,7 @@ export class SearchUtils {
 
         let fulltext = ''
 
-        if (i === 0 && j === 0) {
+        if (i === 0 && j === 0 && thumbnail === '') {
           thumbnail = member.thumbnail
         }
 
@@ -846,6 +850,8 @@ export class SearchUtils {
     let layout = 'list'
     if (curation.viewingHint === 'annotation') {
       layout = 'table'
+    } else if (curation.viewingHint) {
+      layout = curation.viewingHint
     }
 
     return {
@@ -857,6 +863,7 @@ export class SearchUtils {
       entity: entities,
       api: curation.api,
       layout,
+      description: curation.description,
     }
   }
 
