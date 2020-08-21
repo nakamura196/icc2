@@ -344,5 +344,6 @@
     "desc_tree" : "IIIFコレクションの階層に沿ってアイテムを閲覧する。",
     "_label" : "label",
     "manifest" : "Manifest",
-    "entity" : "事物"
+    "entity" : "事物",
+    "random" : "ランダム"
   }

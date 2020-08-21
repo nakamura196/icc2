@@ -522,7 +522,7 @@ export class SearchUtils {
             const value2 = values2[l]
 
             // URIの場合は無視
-            if (value2 == null || value2.startsWith('http')) {
+            if (value2 == null || String(value2).startsWith('http')) {
               continue
             }
 
@@ -1098,6 +1098,14 @@ export class SearchUtils {
     return aggs
   }
 
+  shuffle = ([...array]) => {
+    for (let i = array.length - 1; i >= 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1))
+      ;[array[i], array[j]] = [array[j], array[i]]
+    }
+    return array
+  }
+
   sortData(sort: any, dataFiltered: any): any {
     const sortObj: any = convert2arr(sort)[0]
 
@@ -1105,6 +1113,11 @@ export class SearchUtils {
       return dataFiltered
     }
     let field = Object.keys(sortObj)[0]
+
+    if (field === '_random') {
+      return this.shuffle(dataFiltered)
+    }
+
     const type: string = sortObj[field].order
 
     field = field.replace('.keyword', '')

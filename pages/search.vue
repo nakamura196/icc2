@@ -515,6 +515,10 @@ export default class search extends Vue {
         value: '_score:desc',
         text: this.$t('relevance'),
       },
+      {
+        value: '_random:desc',
+        text: this.$t('random'),
+      },
     ]
 
     const orders = ['asc', 'desc']
