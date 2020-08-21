@@ -218,7 +218,11 @@ export default class Metadata extends Vue {
       )
     } else {
       return (
-        'curation/?manifest=' + manifest + '&canvas=' + encodeURIComponent(id)
+        process.env.BASE_URL +
+        '/curation/?manifest=' +
+        manifest +
+        '&canvas=' +
+        encodeURIComponent(id)
       )
     }
   }
