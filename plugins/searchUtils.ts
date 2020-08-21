@@ -313,9 +313,13 @@ export class SearchUtils {
 
         _source: {
           _label: [manifest.label],
-          _thumbnail: [manifest.thumbnail],
+
           _manifest: [manifest['@id']],
         },
+      }
+
+      if (manifest.thumbnail) {
+        obj._source._thumbnail = [manifest.thumbnail]
       }
 
       if (manifest.texts) {
