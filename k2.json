@@ -1,0 +1,378 @@
+{
+    "@context": "http://iiif.io/api/presentation/2/context.json",
+    "@id": "https://utda.github.io/kaishi/iiif/7-2-24/manifest.json",
+    "@type": "sc:Manifest",
+    "attribution": "東京大学駒場図書館 Komaba Library, The University of Tokyo, JAPAN",
+    "label": "泰平丸起絵図",
+    "license": "https://www.lib.u-tokyo.ac.jp/ja/library/contents/archives-top/reuse",
+    "logo": "https://iiif.dl.itc.u-tokyo.ac.jp/images/ut-logo.jpg",
+    "metadata": [
+        {
+            "label": "タイトル/Title",
+            "value": "泰平丸起絵図"
+        }
+    ],
+    "related": "https://iiif.dl.itc.u-tokyo.ac.jp/repo/s/kaishi/document/bb17d219-7893-398b-73f2-0e871f1b23c5",
+    "seeAlso": "https://iiif.dl.itc.u-tokyo.ac.jp/repo/api/items/445474",
+    "sequences": [
+        {
+            "@id": "https://utda.github.io/kaishi/iiif/7-2-24/sequence/normal",
+            "@type": "sc:Sequence",
+            "canvases": [
+                {
+                    "@id": "https://utda.github.io/kaishi/iiif/7-2-24/manifest.json/canvas/p1",
+                    "@type": "sc:Canvas",
+                    "height": 1269,
+                    "images": [
+                        {
+                            "@id": "https://utda.github.io/kaishi/iiif/7-2-24/manifest.json/annotation/p0001-image",
+                            "@type": "oa:Annotation",
+                            "motivation": "sc:painting",
+                            "on": "https://utda.github.io/kaishi/iiif/7-2-24/manifest.json/canvas/p1#xywh=0,0,152,220",
+                            "resource": {
+                                "@id": "http://codh.rois.ac.jp/pmjt/iiif/200015139/200015139_00005.tif/1636,2308,152,220/152,/0/default.jpg",
+                                "@type": "dctypes:Image",
+                                "format": "image/jpeg",
+                                "height": 220,
+                                "width": 152
+                            }
+                        },
+                        {
+                            "@id": "https://utda.github.io/kaishi/iiif/7-2-24/manifest.json/annotation/p0002-image",
+                            "@type": "oa:Annotation",
+                            "motivation": "sc:painting",
+                            "on": "https://utda.github.io/kaishi/iiif/7-2-24/manifest.json/canvas/p1#xywh=0,220,140,215",
+                            "resource": {
+                                "@id": "http://codh.rois.ac.jp/pmjt/iiif/200015139/200015139_00004.tif/632,1313,140,215/140,/0/default.jpg",
+                                "@type": "dctypes:Image",
+                                "format": "image/jpeg",
+                                "height": 215,
+                                "width": 140
+                            }
+                        },
+                        {
+                            "@id": "https://utda.github.io/kaishi/iiif/7-2-24/manifest.json/annotation/p0003-image",
+                            "@type": "oa:Annotation",
+                            "motivation": "sc:painting",
+                            "on": "https://utda.github.io/kaishi/iiif/7-2-24/manifest.json/canvas/p1#xywh=0,435,166,172",
+                            "resource": {
+                                "@id": "http://codh.rois.ac.jp/pmjt/iiif/200015139/200015139_00004.tif/3080,1558,172,166/172,/90/default.jpg",
+                                "@type": "dctypes:Image",
+                                "format": "image/jpeg",
+                                "height": 172,
+                                "width": 166
+                            }
+                        },
+                        {
+                            "@id": "https://utda.github.io/kaishi/iiif/7-2-24/manifest.json/annotation/p0004-image",
+                            "@type": "oa:Annotation",
+                            "motivation": "sc:painting",
+                            "on": "https://utda.github.io/kaishi/iiif/7-2-24/manifest.json/canvas/p1#xywh=152,0,191,142",
+                            "resource": {
+                                "@id": "http://codh.rois.ac.jp/pmjt/iiif/200015139/200015139_00004.tif/2682,2333,142,191/142,/90/default.jpg",
+                                "@type": "dctypes:Image",
+                                "format": "image/jpeg",
+                                "height": 142,
+                                "width": 191
+                            }
+                        },
+                        {
+                            "@id": "https://utda.github.io/kaishi/iiif/7-2-24/manifest.json/annotation/p0005-image",
+                            "@type": "oa:Annotation",
+                            "motivation": "sc:painting",
+                            "on": "https://utda.github.io/kaishi/iiif/7-2-24/manifest.json/canvas/p1#xywh=152,142,191,142",
+                            "resource": {
+                                "@id": "http://codh.rois.ac.jp/pmjt/iiif/200015139/200015139_00004.tif/2445,2245,142,191/142,/90/default.jpg",
+                                "@type": "dctypes:Image",
+                                "format": "image/jpeg",
+                                "height": 142,
+                                "width": 191
+                            }
+                        },
+                        {
+                            "@id": "https://utda.github.io/kaishi/iiif/7-2-24/manifest.json/annotation/p0006-image",
+                            "@type": "oa:Annotation",
+                            "motivation": "sc:painting",
+                            "on": "https://utda.github.io/kaishi/iiif/7-2-24/manifest.json/canvas/p1#xywh=140,284,247,105",
+                            "resource": {
+                                "@id": "http://codh.rois.ac.jp/pmjt/iiif/200015139/200015139_00004.tif/843,1173,105,247/105,/90/default.jpg",
+                                "@type": "dctypes:Image",
+                                "format": "image/jpeg",
+                                "height": 105,
+                                "width": 247
+                            }
+                        },
+                        {
+                            "@id": "https://utda.github.io/kaishi/iiif/7-2-24/manifest.json/annotation/p0007-image",
+                            "@type": "oa:Annotation",
+                            "motivation": "sc:painting",
+                            "on": "https://utda.github.io/kaishi/iiif/7-2-24/manifest.json/canvas/p1#xywh=343,0,184,140",
+                            "resource": {
+                                "@id": "http://codh.rois.ac.jp/pmjt/iiif/200015139/200015139_00006.tif/4930,1104,140,184/140,/90/default.jpg",
+                                "@type": "dctypes:Image",
+                                "format": "image/jpeg",
+                                "height": 140,
+                                "width": 184
+                            }
+                        },
+                        {
+                            "@id": "https://utda.github.io/kaishi/iiif/7-2-24/manifest.json/annotation/p0008-image",
+                            "@type": "oa:Annotation",
+                            "motivation": "sc:painting",
+                            "on": "https://utda.github.io/kaishi/iiif/7-2-24/manifest.json/canvas/p1#xywh=343,140,184,140",
+                            "resource": {
+                                "@id": "http://codh.rois.ac.jp/pmjt/iiif/200015139/200015139_00006.tif/1732,1164,140,184/140,/90/default.jpg",
+                                "@type": "dctypes:Image",
+                                "format": "image/jpeg",
+                                "height": 140,
+                                "width": 184
+                            }
+                        },
+                        {
+                            "@id": "https://utda.github.io/kaishi/iiif/7-2-24/manifest.json/annotation/p0009-image",
+                            "@type": "oa:Annotation",
+                            "motivation": "sc:painting",
+                            "on": "https://utda.github.io/kaishi/iiif/7-2-24/manifest.json/canvas/p1#xywh=0,607,133,189",
+                            "resource": {
+                                "@id": "http://codh.rois.ac.jp/pmjt/iiif/200015139/200015139_00004.tif/1999,1211,133,189/133,/0/default.jpg",
+                                "@type": "dctypes:Image",
+                                "format": "image/jpeg",
+                                "height": 189,
+                                "width": 133
+                            }
+                        },
+                        {
+                            "@id": "https://utda.github.io/kaishi/iiif/7-2-24/manifest.json/annotation/p0010-image",
+                            "@type": "oa:Annotation",
+                            "motivation": "sc:painting",
+                            "on": "https://utda.github.io/kaishi/iiif/7-2-24/manifest.json/canvas/p1#xywh=0,796,133,189",
+                            "resource": {
+                                "@id": "http://codh.rois.ac.jp/pmjt/iiif/200015139/200015139_00004.tif/1366,1818,133,189/133,/0/default.jpg",
+                                "@type": "dctypes:Image",
+                                "format": "image/jpeg",
+                                "height": 189,
+                                "width": 133
+                            }
+                        },
+                        {
+                            "@id": "https://utda.github.io/kaishi/iiif/7-2-24/manifest.json/annotation/p0011-image",
+                            "@type": "oa:Annotation",
+                            "motivation": "sc:painting",
+                            "on": "https://utda.github.io/kaishi/iiif/7-2-24/manifest.json/canvas/p1#xywh=0,985,142,168",
+                            "resource": {
+                                "@id": "http://codh.rois.ac.jp/pmjt/iiif/200015139/200015139_00006.tif/2454,1336,142,168/142,/0/default.jpg",
+                                "@type": "dctypes:Image",
+                                "format": "image/jpeg",
+                                "height": 168,
+                                "width": 142
+                            }
+                        },
+                        {
+                            "@id": "https://utda.github.io/kaishi/iiif/7-2-24/manifest.json/annotation/p0012-image",
+                            "@type": "oa:Annotation",
+                            "motivation": "sc:painting",
+                            "on": "https://utda.github.io/kaishi/iiif/7-2-24/manifest.json/canvas/p1#xywh=133,607,168,142",
+                            "resource": {
+                                "@id": "http://codh.rois.ac.jp/pmjt/iiif/200015139/200015139_00006.tif/2301,1780,142,168/142,/90/default.jpg",
+                                "@type": "dctypes:Image",
+                                "format": "image/jpeg",
+                                "height": 142,
+                                "width": 168
+                            }
+                        },
+                        {
+                            "@id": "https://utda.github.io/kaishi/iiif/7-2-24/manifest.json/annotation/p0013-image",
+                            "@type": "oa:Annotation",
+                            "motivation": "sc:painting",
+                            "on": "https://utda.github.io/kaishi/iiif/7-2-24/manifest.json/canvas/p1#xywh=166,389,160,142",
+                            "resource": {
+                                "@id": "http://codh.rois.ac.jp/pmjt/iiif/200015139/200015139_00004.tif/786,1576,142,160/142,/90/default.jpg",
+                                "@type": "dctypes:Image",
+                                "format": "image/jpeg",
+                                "height": 142,
+                                "width": 160
+                            }
+                        },
+                        {
+                            "@id": "https://utda.github.io/kaishi/iiif/7-2-24/manifest.json/annotation/p0014-image",
+                            "@type": "oa:Annotation",
+                            "motivation": "sc:painting",
+                            "on": "https://utda.github.io/kaishi/iiif/7-2-24/manifest.json/canvas/p1#xywh=133,749,178,122",
+                            "resource": {
+                                "@id": "http://codh.rois.ac.jp/pmjt/iiif/200015139/200015139_00004.tif/1426,2686,122,178/122,/90/default.jpg",
+                                "@type": "dctypes:Image",
+                                "format": "image/jpeg",
+                                "height": 122,
+                                "width": 178
+                            }
+                        },
+                        {
+                            "@id": "https://utda.github.io/kaishi/iiif/7-2-24/manifest.json/annotation/p0015-image",
+                            "@type": "oa:Annotation",
+                            "motivation": "sc:painting",
+                            "on": "https://utda.github.io/kaishi/iiif/7-2-24/manifest.json/canvas/p1#xywh=301,531,178,122",
+                            "resource": {
+                                "@id": "http://codh.rois.ac.jp/pmjt/iiif/200015139/200015139_00004.tif/1207,1859,122,178/122,/90/default.jpg",
+                                "@type": "dctypes:Image",
+                                "format": "image/jpeg",
+                                "height": 122,
+                                "width": 178
+                            }
+                        },
+                        {
+                            "@id": "https://utda.github.io/kaishi/iiif/7-2-24/manifest.json/annotation/p0016-image",
+                            "@type": "oa:Annotation",
+                            "motivation": "sc:painting",
+                            "on": "https://utda.github.io/kaishi/iiif/7-2-24/manifest.json/canvas/p1#xywh=387,280,178,122",
+                            "resource": {
+                                "@id": "http://codh.rois.ac.jp/pmjt/iiif/200015139/200015139_00004.tif/1019,1943,122,178/122,/90/default.jpg",
+                                "@type": "dctypes:Image",
+                                "format": "image/jpeg",
+                                "height": 122,
+                                "width": 178
+                            }
+                        },
+                        {
+                            "@id": "https://utda.github.io/kaishi/iiif/7-2-24/manifest.json/annotation/p0017-image",
+                            "@type": "oa:Annotation",
+                            "motivation": "sc:painting",
+                            "on": "https://utda.github.io/kaishi/iiif/7-2-24/manifest.json/canvas/p1#xywh=527,0,178,122",
+                            "resource": {
+                                "@id": "http://codh.rois.ac.jp/pmjt/iiif/200015139/200015139_00004.tif/939,1527,122,178/122,/90/default.jpg",
+                                "@type": "dctypes:Image",
+                                "format": "image/jpeg",
+                                "height": 122,
+                                "width": 178
+                            }
+                        },
+                        {
+                            "@id": "https://utda.github.io/kaishi/iiif/7-2-24/manifest.json/annotation/p0018-image",
+                            "@type": "oa:Annotation",
+                            "motivation": "sc:painting",
+                            "on": "https://utda.github.io/kaishi/iiif/7-2-24/manifest.json/canvas/p1#xywh=527,122,156,131",
+                            "resource": {
+                                "@id": "http://codh.rois.ac.jp/pmjt/iiif/200015139/200015139_00004.tif/2129,2477,131,156/131,/90/default.jpg",
+                                "@type": "dctypes:Image",
+                                "format": "image/jpeg",
+                                "height": 131,
+                                "width": 156
+                            }
+                        },
+                        {
+                            "@id": "https://utda.github.io/kaishi/iiif/7-2-24/manifest.json/annotation/p0019-image",
+                            "@type": "oa:Annotation",
+                            "motivation": "sc:painting",
+                            "on": "https://utda.github.io/kaishi/iiif/7-2-24/manifest.json/canvas/p1#xywh=326,402,170,116",
+                            "resource": {
+                                "@id": "http://codh.rois.ac.jp/pmjt/iiif/200015139/200015139_00005.tif/758,1487,116,170/116,/90/default.jpg",
+                                "@type": "dctypes:Image",
+                                "format": "image/jpeg",
+                                "height": 116,
+                                "width": 170
+                            }
+                        },
+                        {
+                            "@id": "https://utda.github.io/kaishi/iiif/7-2-24/manifest.json/annotation/p0020-image",
+                            "@type": "oa:Annotation",
+                            "motivation": "sc:painting",
+                            "on": "https://utda.github.io/kaishi/iiif/7-2-24/manifest.json/canvas/p1#xywh=0,1153,170,116",
+                            "resource": {
+                                "@id": "http://codh.rois.ac.jp/pmjt/iiif/200015139/200015139_00005.tif/918,1387,116,170/116,/90/default.jpg",
+                                "@type": "dctypes:Image",
+                                "format": "image/jpeg",
+                                "height": 116,
+                                "width": 170
+                            }
+                        },
+                        {
+                            "@id": "https://utda.github.io/kaishi/iiif/7-2-24/manifest.json/annotation/p0021-image",
+                            "@type": "oa:Annotation",
+                            "motivation": "sc:painting",
+                            "on": "https://utda.github.io/kaishi/iiif/7-2-24/manifest.json/canvas/p1#xywh=142,871,170,116",
+                            "resource": {
+                                "@id": "http://codh.rois.ac.jp/pmjt/iiif/200015139/200015139_00005.tif/1166,1391,116,170/116,/90/default.jpg",
+                                "@type": "dctypes:Image",
+                                "format": "image/jpeg",
+                                "height": 116,
+                                "width": 170
+                            }
+                        },
+                        {
+                            "@id": "https://utda.github.io/kaishi/iiif/7-2-24/manifest.json/annotation/p0022-image",
+                            "@type": "oa:Annotation",
+                            "motivation": "sc:painting",
+                            "on": "https://utda.github.io/kaishi/iiif/7-2-24/manifest.json/canvas/p1#xywh=311,653,170,116",
+                            "resource": {
+                                "@id": "http://codh.rois.ac.jp/pmjt/iiif/200015139/200015139_00005.tif/1286,1495,116,170/116,/90/default.jpg",
+                                "@type": "dctypes:Image",
+                                "format": "image/jpeg",
+                                "height": 116,
+                                "width": 170
+                            }
+                        },
+                        {
+                            "@id": "https://utda.github.io/kaishi/iiif/7-2-24/manifest.json/annotation/p0023-image",
+                            "@type": "oa:Annotation",
+                            "motivation": "sc:painting",
+                            "on": "https://utda.github.io/kaishi/iiif/7-2-24/manifest.json/canvas/p1#xywh=479,518,140,132",
+                            "resource": {
+                                "@id": "http://codh.rois.ac.jp/pmjt/iiif/200015139/200015139_00004.tif/3700,2640,140,132/140,/0/default.jpg",
+                                "@type": "dctypes:Image",
+                                "format": "image/jpeg",
+                                "height": 132,
+                                "width": 140
+                            }
+                        },
+                        {
+                            "@id": "https://utda.github.io/kaishi/iiif/7-2-24/manifest.json/annotation/p0024-image",
+                            "@type": "oa:Annotation",
+                            "motivation": "sc:painting",
+                            "on": "https://utda.github.io/kaishi/iiif/7-2-24/manifest.json/canvas/p1#xywh=565,253,140,132",
+                            "resource": {
+                                "@id": "http://codh.rois.ac.jp/pmjt/iiif/200015139/200015139_00004.tif/3474,1074,140,132/140,/0/default.jpg",
+                                "@type": "dctypes:Image",
+                                "format": "image/jpeg",
+                                "height": 132,
+                                "width": 140
+                            }
+                        },
+                        {
+                            "@id": "https://utda.github.io/kaishi/iiif/7-2-24/manifest.json/annotation/p0025-image",
+                            "@type": "oa:Annotation",
+                            "motivation": "sc:painting",
+                            "on": "https://utda.github.io/kaishi/iiif/7-2-24/manifest.json/canvas/p1#xywh=683,122,131,128",
+                            "resource": {
+                                "@id": "http://codh.rois.ac.jp/pmjt/iiif/200015139/200015139_00004.tif/865,1756,131,128/131,/0/default.jpg",
+                                "@type": "dctypes:Image",
+                                "format": "image/jpeg",
+                                "height": 128,
+                                "width": 131
+                            }
+                        },
+                        {
+                            "@id": "https://utda.github.io/kaishi/iiif/7-2-24/manifest.json/annotation/p0026-image",
+                            "@type": "oa:Annotation",
+                            "motivation": "sc:painting",
+                            "on": "https://utda.github.io/kaishi/iiif/7-2-24/manifest.json/canvas/p1#xywh=705,0,133,105",
+                            "resource": {
+                                "@id": "http://codh.rois.ac.jp/pmjt/iiif/200015139/200015139_00004.tif/1035,1139,105,133/105,/90/default.jpg",
+                                "@type": "dctypes:Image",
+                                "format": "image/jpeg",
+                                "height": 105,
+                                "width": 133
+                            }
+                        }
+                    ],
+                    "label": "[1]",
+                    "thumbnail": {
+                        "@id": "https://clioimg.hi.u-tokyo.ac.jp/viewer/api/image/idata%2F850%2F8500%2F02%2F0101%2F0001_r25.jpg"
+                    },
+                    "width": 838
+                }
+            ],
+            "label": "Current Page Order"
+        }
+    ],
+    "thumbnail": "https://iiif.dl.itc.u-tokyo.ac.jp/repo/files/medium/bc0f0b7eae39dc7b697ffe7a3bbd8e17dc40db8e.jpg",
+    "within": "https://iiif.dl.itc.u-tokyo.ac.jp/repo/s/kaishi"
+}
