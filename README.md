@@ -1,4 +1,4 @@
-# IIIF Curation Comparison
+# IIIF Multi Viewer
 
 IIIF Collection と IIIF Curation List を引数として、ファセット検索や画像比較などの機能を提供します。
 
