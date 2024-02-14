@@ -20,6 +20,10 @@ https://nakamura196.github.io/icc2/
 
 例: http://codh.rois.ac.jp/software/iiif-curation-viewer/demo/?curation=https://mp.ex.nii.ac.jp/api/curation/json/528810d2-4e28-4a46-910c-c9b517f86943&lang=ja
 
+https://github.com/nakamura196/icc2/assets/5351691/57543695-8928-4eda-a433-7ad58bc5ddd1
+
+![demo](https://github.com/nakamura196/icc2/assets/5351691/99b3ffb6-59f2-4d48-8d6c-ff00733f9efe)
+
 <!-- 以下のURLに引数 `u` に IIIF Collection URI または IIIF Curation URI を与えてください。 -->
 
 ### その他
